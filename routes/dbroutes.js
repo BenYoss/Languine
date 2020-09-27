@@ -1,5 +1,5 @@
 const express = require('express');
-const { user } = require('../database/models/models');
+const { user, room } = require('../database/models/models');
 
 const dbrouter = express.Router();
 
@@ -19,6 +19,15 @@ dbrouter.post('/users', (req, res) => {
 
 dbrouter.get('/rooms', (req, res) => {
   res.send('this is the getter for rooms');
+});
+
+dbrouter.post('/rooms', (req, res) => {
+  room.addRoom(req.body)
+    .then((resu) => {
+      console.log(resu, 'this works!');
+    })
+    .catch((err) => console.error(err));
+  res.send('rooms');
 });
 
 dbrouter.get('/languages', (req, res) => {
