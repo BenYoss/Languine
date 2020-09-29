@@ -7,16 +7,17 @@ const authRouter = express.Router();
 authRouter.get('/auth/google',
   passport.authenticate('google', {
     scope:
-    ['https://www.googleapis.com/auth/plus.login',
-      'https://www.googleapis.com/auth/plus.profile.emails.read'],
+    ['profile', 'email'],
   }));
 
 authRouter.get('/auth/google/callback',
   passport.authenticate('google', {
     // if authenication succeeds, redirect to homepage.
-    successRedirect: '/login',
     failureRedirect: '/fail',
-  }));
+    successRedirect: '/',
+  }), (req, res) => {
+    res.redirect('/');
+  });
 
 // if the authentication fails
 authRouter.get('/fail', (req, res) => {
