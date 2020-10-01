@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import getUser from '../helpers/helpers';
+import { getUser } from '../helpers/helpers';
 
 function Homepage() {
   const [user, setUser] = useState('');
