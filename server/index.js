@@ -17,7 +17,6 @@ const { PORT } = process.env;
 const server = http.createServer(app);
 const io = socketio(server);
 let userInfo;
-let roomInfo;
 // Body parser V
 app.use(express.json());
 
