@@ -4,6 +4,7 @@
   "description": "Languine is a messaging site that breaks the language barrier by translating messages at real time!",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.10.6",
