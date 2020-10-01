@@ -21,7 +21,7 @@ function Join() {
         <div>
           <input placeholder={user.username} className="User-Input" type="text" onChange={(ev) => setUser(ev.target.value)} />
           <input placeholder="" className="Room-Input" type="text" onChange={(ev) => setRoom(ev.target.value)} />
-          <Link to={`/discussion?name=${user.id_google}&room=${room}`}>
+          <Link to={`/discussion?name=${user.id_google}&room=${room}&user=${user.username}`}>
             <button className="button" type="submit">Sign In</button>
           </Link>
         </div>
