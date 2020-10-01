@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getUser = () => new Promise((res, rej) => {
+export const getUser = () => new Promise((res, rej) => {
   axios.get('/session')
     .then((id) => {
       axios.get('/users', { params: { id_google: `${id.data.join('0')}` } })
@@ -11,4 +11,10 @@ const getUser = () => new Promise((res, rej) => {
     });
 });
 
-export default getUser;
+export const getRooms = () => new Promise((res, rej) => {
+  axios.get('/rooms')
+    .then((roomData) => {
+      res(roomData.data);
+    })
+    .catch((err) => rej(err));
+});
