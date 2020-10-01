@@ -1,14 +1,22 @@
 const express = require('express');
-const { user, room } = require('../database/models/models');
+const { User, Room } = require('../database/models/models');
 
 const dbrouter = express.Router();
 
 dbrouter.get('/users', (req, res) => {
-  res.send('this is the getter for users');
+  User.findUsers(req.query)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.end();
+    });
+  // res.send('this');
 });
 
 dbrouter.post('/users', (req, res) => {
-  user.addUser(req.body)
+  User.addUser(req.body)
     .then(() => {
       console.log('user successfully added!');
     })
@@ -22,7 +30,7 @@ dbrouter.get('/rooms', (req, res) => {
 });
 
 dbrouter.post('/rooms', (req, res) => {
-  room.addRoom(req.body)
+  Room.addRoom(req.body)
     .then((resu) => {
       console.log(resu, 'this works!');
     })
