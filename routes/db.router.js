@@ -26,7 +26,12 @@ dbrouter.post('/users', (req, res) => {
 });
 
 dbrouter.get('/rooms', (req, res) => {
-  res.send('this is the getter for rooms');
+  Room.getRooms(req.query)
+    .then((rooms) => {
+      res.send(rooms);
+    })
+    .catch((err) => console.error(err));
+  // res.send('this is the getter for rooms');
 });
 
 dbrouter.post('/rooms', (req, res) => {
