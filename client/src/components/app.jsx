@@ -12,7 +12,7 @@ function App() {
           <Homepage />
         </Route>
         <Route path="/discussion">
-          <Chat location={Window.location} />
+          <Chat />
         </Route>
         <Route path="/join">
           <Join />
