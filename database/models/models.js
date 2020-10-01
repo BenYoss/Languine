@@ -1,7 +1,7 @@
-const user = require('./user');
-const room = require('./room');
+const User = require('./user');
+const Room = require('./room');
 
 module.exports = {
-  user,
-  room,
+  User,
+  Room,
 };
