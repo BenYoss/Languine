@@ -29,14 +29,14 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 io.on('connection', (socket) => {
   console.log('A new connection has been made!');
 
-  socket.on('join', ({ name, room }) => {
+  socket.on('join', ({ name, room, desc }) => {
     console.log(name, room);
     User.findUsers({ id_google: name })
 
       .then((userData) => {
         console.log(userData[0]);
         [userInfo] = userData;
-        Room.addRoom(room, 'default text, add more here', true)
+        Room.addRoom(room, desc || 'default text, add more here', true)
           .then(({ _id }) => {
             console.log(_id);
             User.updateUserRoom(name, _id)
