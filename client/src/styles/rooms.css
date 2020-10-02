@@ -1,0 +1,31 @@
+.roomListContainer {
+    padding: 5% 0;
+    overflow: auto;
+    flex: auto;
+}
+
+.roomListHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2979FF;
+    border-radius: 4px 4px 0 0;
+    height: 60px;
+    width: 100%;
+    color: white;
+}
+
+.room {
+    display: flex;
+    align-items: center;
+    background: #6B6B6B;
+    justify-content: space-between;
+    border-radius: 4px 4px 0 0;
+    min-height: 10px;
+    color: white;
+    margin-top: 10px;
+}
+
+.roomListInnerContainer {
+    background: white;
+}
