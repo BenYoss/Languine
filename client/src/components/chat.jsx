@@ -15,7 +15,9 @@ function Chat() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const { name, room, user } = query.parse(window.location.search);
+    const {
+      name, room, user, desc,
+    } = query.parse(window.location.search);
 
     socket = io('localhost:8080');
 
@@ -23,7 +25,7 @@ function Chat() {
     setRoom(room);
     setUser(user);
     console.log(query.parse(window.location.search));
-    socket.emit('join', { name, room }, () => {
+    socket.emit('join', { name, room, desc }, () => {
 
     });
 
