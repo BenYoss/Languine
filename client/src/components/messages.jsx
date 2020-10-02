@@ -8,7 +8,7 @@ function Messages({ messages, name }) {
     <div>
       <ScrollToBottom>
         {messages.map((message, i) => (
-          <div key={i}>
+          <div>
             <Message message={message} name={name} />
           </div>
         ))}
