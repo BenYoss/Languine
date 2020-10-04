@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import query from 'query-string';
 import io from 'socket.io-client';
 import InfoBar from './infoBar';
-import Messages from './messages';
+import Message from './message';
 import '../styles/chat.css';
 
 let socket;
@@ -13,6 +13,7 @@ function Chat() {
   const [roomType, setRoom] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [reload, setReload] = useState([]);
 
   useEffect(() => {
     const {
@@ -26,7 +27,7 @@ function Chat() {
     setUser(user);
     console.log(query.parse(window.location.search));
     socket.emit('join', { name, room, desc }, () => {
-
+      console.log(name, room, desc, 'test');
     });
 
     return () => {
@@ -37,8 +38,13 @@ function Chat() {
   }, ['localhost:8080', window.location.search]);
 
   useEffect(() => {
+    console.log('tets');
     socket.on('message', (msg) => {
-      setMessages([...messages, msg]);
+      const storage = messages;
+      storage.push(msg);
+      console.log(storage, 'STRAGE');
+      setMessages(storage);
+      setReload([]);
     });
   }, [messages]);
 
@@ -47,10 +53,9 @@ function Chat() {
 
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));
+      setMessage('');
     }
   };
-
-  console.log(message, messages);
 
   return (
     <div className="background">
@@ -64,7 +69,14 @@ function Chat() {
           {roomType}
         </h2>
         <InfoBar room={roomType} name={nameuser} />
-        <Messages messages={messages} name={nameuser} />
+        {/* <Messages messages={messages} name={nameuser} /> */}
+        <div onChange={() => console.log('tst')}>
+          {messages.map((messagee) => (
+            <div key={Math.random()}>
+              <Message message={messagee} name={nameuser} />
+            </div>
+          ))}
+        </div>
 
         <div className="outercontainer">
           <form className="form">
@@ -75,7 +87,7 @@ function Chat() {
               onChange={(event) => setMessage(event.target.value)}
               onKeyPress={(event) => (event.key === 'Enter' ? sendMessage(event) : null)}
             />
-            <button className="sendButton" type="submit" onClick={(event) => sendMessage(event)}>Send</button>
+            <button className="sendButton" type="submit" onClick={(event) => { sendMessage(event); setMessage(''); }}>Send</button>
           </form>
         </div>
       </div>
