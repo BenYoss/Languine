@@ -7,13 +7,13 @@ function Messages({ messages, name }) {
   console.log(name, messages);
   return (
     <div>
-      {/* <ScrollToBottom> */}
-      {messages.map((message, i) => (
-        <div>
-          <Message message={message} name={name} />
-        </div>
-      ))}
-      {/* </ScrollToBottom> */}
+      <ScrollToBottom>
+        {messages.map((message) => (
+          <div>
+            <Message message={message} name={name} />
+          </div>
+        ))}
+      </ScrollToBottom>
     </div>
   );
 }

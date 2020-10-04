@@ -27,7 +27,7 @@ function Chat() {
     setUser(user);
     console.log(query.parse(window.location.search));
     socket.emit('join', { name, room, desc }, () => {
-      console.log(name, room, desc, 'test');
+      console.log(name, room, desc, reload, 'test');
     });
 
     return () => {
