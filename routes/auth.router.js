@@ -15,9 +15,11 @@ authRouter.get('/auth/google/callback',
   passport.authenticate('google', {
     // if authenication succeeds, redirect to homepage.
     failureRedirect: '/fail',
+    successRedirect: '/',
   }), (req, res) => {
     id = req.user.id;
-    res.redirect('/');
+    // console.log(req.session, 'ATDAYHF');
+    res.send(req.user);
   });
 
 // if the authentication fails
@@ -36,7 +38,8 @@ authRouter.get('/logout', (req, res) => {
 
 authRouter.get('/session', (req, res) => {
   const splitter = id || 'no';
-  res.send(splitter.split('0'));
+  console.log(req.user, req.session, 'test');
+  res.send(req.user);
 });
 
 module.exports = {
