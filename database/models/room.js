@@ -35,7 +35,10 @@ const addRoom = (name, description, isPublic) => {
 // when invoked will return all room instances recorded in the database in a list.
 const getRooms = (options) => Room.find(options).sort().exec();
 
+const deleteRoom = (id) => Room.deleteOne({ _id: id }).exec();
+
 module.exports = {
   addRoom,
   getRooms,
+  deleteRoom,
 };
