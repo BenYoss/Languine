@@ -35,14 +35,13 @@ const addUser = (
 
 const findUsers = (option) => User.find(option).sort().exec();
 
-const updateUserRoom = (userId, roomId) => {
-  const test = userId;
-  return User.findOneAndUpdate({ id_google: test }, { id_room: roomId })
-    .then((data) => {
-      console.log('Room has been changed to ', data);
-    })
-    .catch((err) => console.error(err));
-};
+const updateUserRoom = (userId, roomId) => User.findOneAndUpdate({ id_google: userId },
+  { id_room: roomId })
+  .then((data) => {
+    console.log(roomId, data.id_room);
+    // console.log('Room has been changed to ', data);
+  })
+  .catch((err) => console.error(err));
 
 module.exports = {
   addUser,
