@@ -24,7 +24,7 @@ passport.deserializeUser((idUser, done) => {
 passport.use(new GoogleStrategy({
   clientID: cliID,
   clientSecret: secret,
-  callbackURL: 'http://localhost:8080/auth/google/callback',
+  callbackURL: '/auth/google/callback',
 },
 (req, accessToken, refreshToken, profile, done) => {
   // variable for notation convenience
@@ -37,7 +37,7 @@ passport.use(new GoogleStrategy({
   userModel.addUser(name, picture, 'fill me', sub, locale)
     .then(() => {
       console.log(`${name}has been added!`);
+      done(null, profile);
     })
     .catch((err) => { console.error(err); });
-  done(null, profile);
 }));
