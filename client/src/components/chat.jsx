@@ -25,7 +25,6 @@ function Chat() {
     // setName(name);
     setRoom(room);
     setUser(user);
-    console.log(query.parse(window.location.search));
     socket.emit('join', { name, room, desc }, () => {
       console.log(name, room, desc, reload, 'test');
     });
@@ -38,15 +37,14 @@ function Chat() {
   }, ['localhost:8080', window.location.search]);
 
   useEffect(() => {
-    console.log('tets');
     const {
       room,
     } = query.parse(window.location.search);
-    socket.on('message', (msg) => {
+    socket.on('message', () => {
       getRoom(room)
-      .then((roomData) => {
-          console.log(roomData[0]._id);
-          getMessages(roomData[0]._id)
+        .then((roomData) => {
+          const { _id } = roomData[0];
+          getMessages(_id)
             .then((messageBlock) => {
               console.log(messageBlock);
               const storage = messageBlock;
