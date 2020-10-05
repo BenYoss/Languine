@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import InfoBar from './infoBar';
 import Message from './message';
 import '../styles/chat.css';
+import { getMessages, getRoom } from '../helpers/helpers';
 
 let socket;
 
@@ -21,7 +22,6 @@ function Chat() {
     } = query.parse(window.location.search);
 
     socket = io('localhost:8080');
-
     // setName(name);
     setRoom(room);
     setUser(user);
@@ -39,12 +39,23 @@ function Chat() {
 
   useEffect(() => {
     console.log('tets');
+    const {
+      room,
+    } = query.parse(window.location.search);
     socket.on('message', (msg) => {
-      const storage = messages;
-      storage.push(msg);
-      console.log(storage, 'STRAGE');
-      setMessages(storage);
-      setReload([]);
+      getRoom(room)
+      .then((roomData) => {
+          console.log(roomData[0]._id);
+          getMessages(roomData[0]._id)
+            .then((messageBlock) => {
+              console.log(messageBlock);
+              const storage = messageBlock;
+              // console.log(storage, 'STRAGE');
+              setMessages(storage);
+              setReload([]);
+            });
+        })
+        .catch((err) => console.error(err));
     });
   }, [messages]);
 
