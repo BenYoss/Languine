@@ -6,6 +6,7 @@ const roomSchema = new mongoose.Schema({
   name: String,
   description: String,
   is_public: Boolean,
+  id_host: String,
   created_at: Date,
 });
 
@@ -19,8 +20,11 @@ const Room = mongoose.model('Room', roomSchema);
 // ADD ROOM:
 // takes in two strings and a boolean value and records a new room instance in
 // the database based on the room id being considered a unique instance.
-const addRoom = (name, description, isPublic) => {
-  const room = new Room({ name, description, isPublic });
+const addRoom = (name, description, isPublic, host) => {
+  const date = new Date();
+  const room = new Room({
+    name, description, isPublic, host, date,
+  });
   return Room.findOne({ name: room.name })
     .then((match) => {
       if (!match) {
