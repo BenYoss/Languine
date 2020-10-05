@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Room } = require('../database/models/models');
+const { User, Room, Message } = require('../database/models/models');
 
 const dbrouter = express.Router();
 
@@ -43,12 +43,43 @@ dbrouter.post('/rooms', (req, res) => {
   res.send('rooms');
 });
 
+dbrouter.delete('/rooms', (req, res) => {
+  Room.deleteRoom(req.query)
+    .then((result) => {
+      res.send(result, 'room deleted');
+    })
+    .catch((err) => console.error(err));
+  res.end();
+});
+
 dbrouter.get('/languages', (req, res) => {
   res.send('this is the getter for languages');
 });
 
 dbrouter.get('/messages', (req, res) => {
-  res.send('this is the getter for messages');
+  Message.getMessages(req.query)
+    .then((messages) => {
+      res.send(messages);
+    })
+    .catch((err) => console.error(err));
+});
+
+dbrouter.post('/messages', (req, res) => {
+  Message.addMessage(req.body)
+    .then((result) => {
+      console.log(result, 'message saved to DB');
+    })
+    .catch((err) => console.error(err));
+  res.end();
+});
+
+dbrouter.delete('/messages', (req, res) => {
+  Message.deleteMessage(req.query)
+    .then((result) => {
+      console.log(result, 'message saved to DB');
+    })
+    .catch((err) => console.error(err));
+  res.end();
 });
 
 dbrouter.get('/files', (req, res) => {
