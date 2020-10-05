@@ -3,7 +3,6 @@ const passport = require('passport');
 require('../auth/googleStrategy');
 
 const authRouter = express.Router();
-let id;
 
 authRouter.get('/auth/google',
   passport.authenticate('google', {
@@ -17,7 +16,6 @@ authRouter.get('/auth/google/callback',
     failureRedirect: '/fail',
     successRedirect: '/',
   }), (req, res) => {
-    id = req.user.id;
     // console.log(req.session, 'ATDAYHF');
     res.send(req.user);
   });
@@ -37,7 +35,6 @@ authRouter.get('/logout', (req, res) => {
 });
 
 authRouter.get('/session', (req, res) => {
-  const splitter = id || 'no';
   console.log(req.user, req.session, 'test');
   res.send(req.user);
 });
