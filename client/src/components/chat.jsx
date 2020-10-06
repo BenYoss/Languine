@@ -89,7 +89,7 @@ function Chat() {
           {' '}
           {roomType}
         </h2>
-        <InfoBar room={roomType} name={nameuser} />
+        <InfoBar room={roomType} name={nameuser} host={host} account={account} />
         {/* <Messages messages={messages} name={nameuser} /> */}
         <div onChange={() => console.log('tst')}>
           {messages.map((messagee) => (
