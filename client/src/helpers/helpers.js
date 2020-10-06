@@ -27,8 +27,8 @@ export const getRooms = () => new Promise((res, rej) => {
     .catch((err) => rej(err));
 });
 
-export const deleteRoom = () => new Promise((res, rej) => {
-  axios.delete('/rooms')
+export const deleteRoom = (room) => new Promise((res, rej) => {
+  axios.delete('/rooms', { params: { _id: room } })
     .then(() => {
       res('deleted');
     })
@@ -37,6 +37,14 @@ export const deleteRoom = () => new Promise((res, rej) => {
 
 export const getMessages = (room) => new Promise((res, rej) => {
   axios.get('/messages', { params: { id_room: room } })
+    .then((messages) => {
+      res(messages.data);
+    })
+    .catch((err) => rej(err));
+});
+
+export const deleteMessages = (room) => new Promise((res, rej) => {
+  axios.delete('/messages', { params: { id_room: room } })
     .then((messages) => {
       res(messages.data);
     })
