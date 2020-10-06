@@ -33,9 +33,7 @@ const addMessage = (userId, roomId, text, username, thumbnail) => {
 
 const getMessages = (options) => Message.find(options).sort().exec();
 
-const deleteMessage = (userId, messageId) => Message.findOneAndDelete({
-  id: messageId, id_user: userId,
-}).exec();
+const deleteMessage = (options) => Message.deleteMany(options).exec();
 
 module.exports = {
   addMessage,
