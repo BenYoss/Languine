@@ -6,7 +6,7 @@ const socketio = require('socket.io');
 const http = require('http');
 const session = require('express-session');
 
-const { User, Room } = require('../database/models/models');
+const { User, Room, Message } = require('../database/models/models');
 const { dbrouter } = require('../routes/db.router.js');
 const { authRouter } = require('../routes/auth.router.js');
 const { apiRouter } = require('../routes/api.router.js');
@@ -47,16 +47,20 @@ io.on('connection', (socket) => {
       .then((userData) => {
         // console.log(userData[0]);
         const userDex = userData[0];
-        Room.addRoom(room, desc || 'default text, add more here', true)
+        Room.addRoom(room, desc || 'default text, add more here', true, userData[0].id_google)
           .then(({ _id }) => {
             // console.log(_id);
             User.updateUserRoom(name, _id)
               .then(() => {
                 userInfo[socket.id] = userDex;
                 userInfo[socket.id].id_room = _id;
-                socket.emit('message', { user: 'admin', text: `Welcome ${userData[0].username} to ${room}` });
-                socket.broadcast.to(room).emit('message', { user: 'admin', text: `${userData[0].username} has joined the room!` });
-                socket.join(room);
+                Message.addMessage('admin', _id, `Welcome ${userData[0].username} to ${room}`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
+                  .then((result) => {
+                    // console.log(result, 'works');
+                    socket.emit('message', { user: 'admin', text: `Welcome ${userData[0].username} to ${room}` });
+                    socket.broadcast.to(room).emit('message', { user: 'admin', text: `${userData[0].username} has joined the room!` });
+                    socket.join(room);
+                  });
               })
               .catch((err) => console.error(err));
           })
@@ -69,17 +73,24 @@ io.on('connection', (socket) => {
     const user = userInfo[socket.id];
     Room.getRooms({ _id: user.id_room })
       .then((dataRoom) => {
-        console.log('roomPing');
-        io.to(dataRoom[0].name).emit('message', { user: user.username, text: message, img: user.thumbnail });
+        Message.addMessage(user.id_google, user.id_room, message, user.username, user.thumbnail)
+          .then((result) => {
+            console.log(result, 'success', message);
+            io.to(dataRoom[0].name).emit('message', { user: user.username, text: message, img: user.thumbnail });
+          })
+          .catch((err) => console.error(err));
       })
       .catch((err) => console.error(err));
   });
 
-  socket.on('disconnect', ({ name }) => {
-    User.updateUserRoom(name, 'NA')
-      .then((result) => {
-        // console.log(result, 'Had been removed');
-        console.log('A disconnection has been made!');
+  socket.on('disconnect', () => {
+    const user = userInfo[socket.id];
+    Room.getRooms({ _id: user.id_room })
+      .then((dataRoom) => {
+        Message.addMessage('admin', user.id_room, `${user.username} has disconnected!`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
+          .then((result) => {
+            socket.join(dataRoom[0].name);
+          });
       })
       .catch((err) => console.error(err));
   });

@@ -14,6 +14,12 @@ function Homepage() {
 
   return (
     <div>
+      {user ? (
+        <h1>
+          Welcome!
+          {user.username}
+        </h1>
+      ) : ''}
       <h1>This will be the homepage</h1>
     </div>
   );

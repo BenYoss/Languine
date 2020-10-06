@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getRoom, deleteRoom, deleteMessages } from '../helpers/helpers';
 
 import '../styles/infoBar.css';
 
-function InfoBar({ room, name }) {
+function InfoBar({
+  room, name, host, account,
+}) {
   const imageIcon = 'https://thumbs.gfycat.com/AmusingVeneratedAmurstarfish-small.gif';
+
+  const roomDeletion = (roomId) => deleteRoom(roomId)
+    .then(() => deleteMessages(roomId)
+      .then(() => { window.location.href = '/roomlist'; }))
+    .catch((err) => console.error(err));
 
   return (
     <div className="infoBar">
@@ -17,6 +25,26 @@ function InfoBar({ room, name }) {
       </div>
       <div className="rightInnerContainer">
         <img className="onlineIcon" src={imageIcon} alt="" />
+      </div>
+      <div>
+        {host === account ? (
+          <button
+            className="messageText colorWhite"
+            type="submit"
+            onClick={
+            () => {
+              getRoom(room)
+                .then((roomData) => {
+                  const { _id } = roomData[0];
+                  roomDeletion(_id);
+                })
+                .catch((err) => console.error(err));
+            }
+          }
+          >
+            Delete Room
+          </button>
+        ) : ''}
       </div>
     </div>
   );
