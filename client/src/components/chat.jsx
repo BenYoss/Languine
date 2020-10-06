@@ -4,17 +4,19 @@ import io from 'socket.io-client';
 import InfoBar from './infoBar';
 import Message from './message';
 import '../styles/chat.css';
-import { getMessages, getRoom } from '../helpers/helpers';
+import { getMessages, getRoom, getUser } from '../helpers/helpers';
 
 let socket;
 
 function Chat() {
   // const [username, setName] = useState('');
-  const [nameuser, setUser] = useState('');
+  const [nameuser, setNameUser] = useState('');
   const [roomType, setRoom] = useState('');
   const [message, setMessage] = useState('');
+  const [host, setHost] = useState('');
   const [messages, setMessages] = useState([]);
   const [reload, setReload] = useState([]);
+  const [account, setAccount] = useState([]);
 
   useEffect(() => {
     const {
@@ -24,7 +26,7 @@ function Chat() {
     socket = io('localhost:8080');
     // setName(name);
     setRoom(room);
-    setUser(user);
+    setNameUser(user);
     socket.emit('join', { name, room, desc }, () => {
       console.log(name, room, desc, reload, 'test');
     });
@@ -36,26 +38,36 @@ function Chat() {
     };
   }, ['localhost:8080', window.location.search]);
 
-  useEffect(() => {
+  const reloader = () => {
     const {
       room,
     } = query.parse(window.location.search);
+
+    getRoom(room)
+      .then((roomData) => {
+        const { _id, id_host } = roomData[0];
+        setHost(id_host);
+        getMessages(_id)
+          .then((messageBlock) => {
+            const storage = messageBlock;
+            setMessages(storage);
+            setReload([]);
+          });
+      })
+      .catch((err) => console.error(err));
+  };
+  useEffect(() => {
+    getUser()
+      .then((userData) => {
+        setAccount(userData.id_google);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+  useEffect(() => {
     socket.on('message', () => {
-      getRoom(room)
-        .then((roomData) => {
-          const { _id } = roomData[0];
-          getMessages(_id)
-            .then((messageBlock) => {
-              console.log(messageBlock);
-              const storage = messageBlock;
-              // console.log(storage, 'STRAGE');
-              setMessages(storage);
-              setReload([]);
-            });
-        })
-        .catch((err) => console.error(err));
+      reloader();
     });
-  }, [messages]);
+  }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -82,7 +94,13 @@ function Chat() {
         <div onChange={() => console.log('tst')}>
           {messages.map((messagee) => (
             <div key={Math.random()}>
-              <Message message={messagee} name={nameuser} />
+              <Message
+                message={messagee}
+                name={nameuser}
+                host={host}
+                reloader={reloader}
+                account={account}
+              />
             </div>
           ))}
         </div>

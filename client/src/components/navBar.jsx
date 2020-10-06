@@ -26,7 +26,7 @@ function NavBar() {
                 ? (
                   <Nav className="m-auto justify-content-end">
                     <Nav.Link className="btn" href="/join" placement="left">
-                      <h2>Join Room</h2>
+                      <h2>Create a Room</h2>
                     </Nav.Link>
                     <Nav.Link className="btn" href="/roomlist" placement="left">
                       <h2>Find Rooms</h2>
