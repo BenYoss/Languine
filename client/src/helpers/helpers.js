@@ -42,3 +42,11 @@ export const getMessages = (room) => new Promise((res, rej) => {
     })
     .catch((err) => rej(err));
 });
+
+export const deleteMessage = (message) => new Promise((res, rej) => {
+  axios.delete('/messages', { params: { _id: message } })
+    .then((messages) => {
+      res(messages.data);
+    })
+    .catch((err) => rej(err));
+});
