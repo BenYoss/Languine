@@ -31,6 +31,7 @@ authRouter.get('/login', (req, res) => {
 });
 
 authRouter.get('/logout', (req, res) => {
+  req.session.destroy();
   res.redirect('/login');
 });
 
