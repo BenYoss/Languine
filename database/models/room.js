@@ -23,7 +23,7 @@ const Room = mongoose.model('Room', roomSchema);
 const addRoom = (name, description, isPublic, host) => {
   const date = new Date();
   const room = new Room({
-    name, description, isPublic, host, date,
+    name, description, is_public: isPublic, id_host: host, created_at: date,
   });
   return Room.findOne({ name: room.name })
     .then((match) => {
