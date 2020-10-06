@@ -45,11 +45,10 @@ dbrouter.post('/rooms', (req, res) => {
 
 dbrouter.delete('/rooms', (req, res) => {
   Room.deleteRoom(req.query)
-    .then((result) => {
-      res.send(result, 'room deleted');
+    .then(() => {
+      res.send('room deleted');
     })
     .catch((err) => console.error(err));
-  res.end();
 });
 
 dbrouter.get('/languages', (req, res) => {
