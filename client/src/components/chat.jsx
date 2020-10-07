@@ -23,7 +23,7 @@ function Chat() {
       name, room, user, desc,
     } = query.parse(window.location.search);
 
-    socket = io('localhost:8080');
+    socket = io(process.env.SOCKET_HOST);
     // setName(name);
     setRoom(room);
     setNameUser(user);
@@ -36,7 +36,7 @@ function Chat() {
 
       socket.off();
     };
-  }, ['localhost:8080', window.location.search]);
+  }, [process.env.SOCKET_HOST, window.location.search]);
 
   const reloader = () => {
     const {
