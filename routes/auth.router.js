@@ -16,7 +16,6 @@ authRouter.get('/auth/google/callback',
     failureRedirect: '/fail',
     successRedirect: '/',
   }), (req, res) => {
-    // console.log(req.session, 'ATDAYHF');
     res.send(req.user);
   });
 

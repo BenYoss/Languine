@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import '../styles/message.css';
-import { deleteMessage, getUser } from '../helpers/helpers';
+import React from 'react';
+import '../../styles/message.css';
+import PropTypes from 'prop-types';
+import { deleteMessage } from '../../helpers/helpers';
 
 function Message({
   message: {
@@ -57,5 +58,13 @@ function Message({
     )
   );
 }
+
+Message.propTypes = {
+  message: PropTypes.element.isRequired,
+  name: PropTypes.string.isRequired,
+  host: PropTypes.string.isRequired,
+  reloader: PropTypes.element.isRequired,
+  account: PropTypes.string.isRequired,
+};
 
 export default Message;

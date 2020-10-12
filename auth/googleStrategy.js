@@ -10,7 +10,6 @@ const secret = process.env.CLIENT_SECRET;
 
 // for recording the user information
 passport.serializeUser((user, done) => {
-  // console.log(user.id, 'This user id!');
   done(null, user);
 });
 

@@ -1,35 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { getUser } from '../helpers/helpers';
+import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import '../styles/navBar.css';
+import '../styles/navBar.css';
 
-function NavBar() {
-  const [user, setUser] = useState('');
-
-  useEffect(() => {
-    getUser()
-      .then((userInfo) => {
-        setUser(userInfo);
-        window.language = userInfo.language;
-      });
-  }, []);
-
+function NavBar({ user }) {
   return (
-  // <div className="NavbarContainer">
     <Navbar bg="dark" variant="dark">
-      <Nav.Link href="/">Home</Nav.Link>
+      <Nav.Link href="/"><img width="60" height="60" src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" /></Nav.Link>
       <Nav className="m-auto">
-        {/* <h1>Navbar</h1> */}
         {
               user
                 ? (
                   <Nav className="m-auto justify-content-end">
+                    <Nav.Link className="btn" href="/fileupload" placement="left">
+                      <h2>Translate Files</h2>
+                    </Nav.Link>
                     <Nav.Link className="btn" href="/join" placement="left">
                       <h2>Create a Room</h2>
                     </Nav.Link>
                     <Nav.Link className="btn" href="/roomlist" placement="left">
                       <h2>Find Rooms</h2>
+                    </Nav.Link>
+                    <Nav.Link className="btn" href={`/profile?id=${user.id_google}`} placement="left">
+                      <h2>Profile</h2>
                     </Nav.Link>
                     <h2 className="justify-content-end">
                       <img className="thumbnail" width="60" height="60" src={user.thumbnail} alt="" />
@@ -47,8 +41,11 @@ function NavBar() {
         }
       </Nav>
     </Navbar>
-  // </div>
   );
 }
+
+NavBar.propTypes = {
+  user: PropTypes.element.isRequired,
+};
 
 export default NavBar;

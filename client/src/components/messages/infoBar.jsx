@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { getRoom, deleteRoom, deleteMessages } from '../helpers/helpers';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { getRoom, deleteRoom, deleteMessages } from '../../helpers/helpers';
 
-import '../styles/infoBar.css';
+import '../../styles/infoBar.css';
 
 function InfoBar({
   room, name, host, account,
@@ -49,5 +50,12 @@ function InfoBar({
     </div>
   );
 }
+
+InfoBar.propTypes = {
+  room: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  host: PropTypes.string.isRequired,
+  account: PropTypes.string.isRequired,
+};
 
 export default InfoBar;

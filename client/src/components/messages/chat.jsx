@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import query from 'query-string';
 import io from 'socket.io-client';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import InfoBar from './infoBar';
 import Message from './message';
-import '../styles/chat.css';
-import { getMessages, getRoom, getUser } from '../helpers/helpers';
+import '../../styles/chat.css';
+import { getMessages, getRoom, getUser } from '../../helpers/helpers';
 
 let socket;
 
@@ -20,15 +21,16 @@ function Chat() {
 
   useEffect(() => {
     const {
-      name, room, user, desc,
+      name, room, user, desc, pub,
     } = query.parse(window.location.search);
 
     socket = io(process.env.SOCKET_HOST);
     // setName(name);
     setRoom(room);
     setNameUser(user);
-    socket.emit('join', { name, room, desc }, () => {
-      console.log(name, room, desc, reload, 'test');
+    socket.emit('join', {
+      name, room, desc, pub,
+    }, () => {
     });
 
     return () => {
@@ -45,8 +47,8 @@ function Chat() {
 
     getRoom(room)
       .then((roomData) => {
-        const { _id, id_host } = roomData[0];
-        setHost(id_host);
+        const { _id } = roomData[0];
+        setHost(roomData[0].id_host);
         getMessages(_id)
           .then((messageBlock) => {
             const storage = messageBlock;
@@ -90,19 +92,23 @@ function Chat() {
           {roomType}
         </h2>
         <InfoBar room={roomType} name={nameuser} host={host} account={account} />
-        {/* <Messages messages={messages} name={nameuser} /> */}
-        <div onChange={() => console.log('tst')}>
-          {messages.map((messagee) => (
-            <div key={Math.random()}>
-              <Message
-                message={messagee}
-                name={nameuser}
-                host={host}
-                reloader={reloader}
-                account={account}
-              />
-            </div>
-          ))}
+        <div>
+          <p>
+            <ScrollToBottom className="containermsg">
+              {messages.map((messagee) => (
+                <div key={Math.random()}>
+                  <Message
+                    message={messagee}
+                    name={nameuser}
+                    host={host}
+                    reloader={reloader}
+                    account={account}
+                    reload={reload}
+                  />
+                </div>
+              ))}
+            </ScrollToBottom>
+          </p>
         </div>
 
         <div className="outercontainer">
