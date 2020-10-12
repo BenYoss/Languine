@@ -16,6 +16,12 @@
     align-items: center;
     margin-left: 20px;
 }
+.logo {
+    display: flex;
+    justify-content: flex-start;
+    max-height: 10px;
+    max-width: 100px;
+}
 .thumbnail {
     margin-left: 20px;
     width: 50px;
