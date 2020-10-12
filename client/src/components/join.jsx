@@ -6,6 +6,7 @@ function Join() {
   const [user, setUser] = useState('');
   const [room, setRoom] = useState('');
   const [desc, setDesc] = useState('');
+  const [pub, setPub] = useState(true);
 
   useEffect(() => {
     getUser()
@@ -22,7 +23,9 @@ function Join() {
         <div>
           <input placeholder="Roomname" className="Room-Input" type="text" onChange={(ev) => setRoom(ev.target.value)} />
           <input placeholder="Description" className="Desc-Input" type="text" onChange={(ev) => setDesc(ev.target.value)} />
-          <Link to={`/discussion?name=${user.id_google}&room=${room}&user=${user.username}&desc=${desc}`}>
+          <h4>Set public?</h4>
+          <button type="button" onClick={() => setPub(!pub)}>{`${pub}`}</button>
+          <Link to={`/discussion?name=${user.id_google}&room=${room}&user=${user.username}&desc=${desc}&pub=${pub}`}>
             <button className="button" type="submit">Create Room</button>
           </Link>
         </div>
