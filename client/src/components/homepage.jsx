@@ -1,17 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getUser } from '../helpers/helpers';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-function Homepage() {
-  const [user, setUser] = useState('');
-
-  useEffect(() => {
-    getUser()
-      .then((userInfo) => {
-        setUser(userInfo);
-        window.language = userInfo.language;
-      });
-  }, []);
-
+function Homepage({ user }) {
   return (
     <div>
       {user ? (
@@ -24,5 +14,9 @@ function Homepage() {
     </div>
   );
 }
+
+Homepage.propTypes = {
+  user: PropTypes.element.isRequired,
+};
 
 export default Homepage;
