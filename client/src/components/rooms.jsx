@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Nav } from 'react-bootstrap';
 import { getRooms, getUser } from '../helpers/helpers';
 import '../styles/rooms.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -24,12 +26,17 @@ function RoomList() {
         <h2>Room List</h2>
       </div>
       <div className="roomListInnerContainer">
-        {rooms ? (
+        {rooms.length ? (
           rooms.map((room) => (
             <div className="room" key={room.Id}>
-              <a className="roomTitleBtn" href={`/discussion?name=${user.id_google}&room=${room.name}&user=${user.username}`}>
-                <h1 className="roomTitle">{room.name}</h1>
-              </a>
+              <Nav.Link style={{ color: 'white' }} href={`/discussion?name=${user.id_google}&room=${room.name}&user=${user.username}`}>
+                <h2 className="roomDesc">{room.name}</h2>
+              </Nav.Link>
+              <div>
+                {!room.is_public ? (
+                  <img className="roomDesc" src="https://www.pointcare.com/wp-content/uploads/2018/12/lock-icon.png" alt="" width="40" height="40" />
+                ) : ''}
+              </div>
               <h2 className="roomDesc">{room.description}</h2>
             </div>
           ))
