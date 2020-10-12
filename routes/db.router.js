@@ -36,8 +36,7 @@ dbrouter.get('/rooms', (req, res) => {
 
 dbrouter.post('/rooms', (req, res) => {
   Room.addRoom(req.body)
-    .then((resu) => {
-      console.log(resu, 'this works!');
+    .then(() => {
     })
     .catch((err) => console.error(err));
   res.send('rooms');
@@ -65,8 +64,8 @@ dbrouter.get('/messages', (req, res) => {
 
 dbrouter.post('/messages', (req, res) => {
   Message.addMessage(req.body)
-    .then((result) => {
-      console.log(result, 'message saved to DB');
+    .then(() => {
+      console.log('message saved to DB');
     })
     .catch((err) => console.error(err));
   res.end();
@@ -74,8 +73,8 @@ dbrouter.post('/messages', (req, res) => {
 
 dbrouter.delete('/messages', (req, res) => {
   Message.deleteMessage(req.query)
-    .then((result) => {
-      console.log(result, 'message saved to DB');
+    .then(() => {
+      console.log('message removed from DB');
     })
     .catch((err) => console.error(err));
   res.end();
