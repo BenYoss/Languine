@@ -17,6 +17,13 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|gif|wav|mp3|eot|ttf|woff|woff2)$/,
+        exclude: /node_modules/,
+        use: [
+          'file-loader',
+        ],
+      },
     ],
   },
   devtool: 'cheap-module-eval-source-map',
