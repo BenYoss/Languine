@@ -4,6 +4,7 @@ const path = require('path');
 const passport = require('passport');
 const socketio = require('socket.io');
 const http = require('http');
+const multer = require('multer');
 const session = require('express-session');
 
 const { User, Room, Message } = require('../database/models/models');
@@ -18,6 +19,16 @@ const { PORT } = process.env;
 const server = http.createServer(app);
 const io = socketio(server, { wsEngine: 'ws' });
 const userInfo = {};
+
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
+
+app.disable('x-powered-by');
+app.use(multerMid.single('fileUpload'));
 // Body parser V
 app.use(express.json());
 
@@ -40,23 +51,21 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 io.on('connection', (socket) => {
   console.log('A new connection has been made!');
 
-  socket.on('join', ({ name, room, desc }) => {
-    // console.log(name, room);
+  socket.on('join', ({
+    name, room, desc, pub,
+  }) => {
     User.findUsers({ id_google: name })
 
       .then((userData) => {
-        // console.log(userData[0]);
         const userDex = userData[0];
-        Room.addRoom(room, desc || 'default text, add more here', true, userData[0].id_google)
+        Room.addRoom(room, desc || 'default text, add more here', pub, userData[0].id_google)
           .then(({ _id }) => {
-            // console.log(_id);
             User.updateUserRoom(name, _id)
               .then(() => {
                 userInfo[socket.id] = userDex;
                 userInfo[socket.id].id_room = _id;
                 Message.addMessage('admin', _id, `Welcome ${userData[0].username} to ${room}`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
-                  .then((result) => {
-                    // console.log(result, 'works');
+                  .then(() => {
                     socket.emit('message', { user: 'admin', text: `Welcome ${userData[0].username} to ${room}` });
                     socket.broadcast.to(room).emit('message', { user: 'admin', text: `${userData[0].username} has joined the room!` });
                     socket.join(room);
@@ -88,7 +97,7 @@ io.on('connection', (socket) => {
     Room.getRooms({ _id: user.id_room })
       .then((dataRoom) => {
         Message.addMessage('admin', user.id_room, `${user.username} has disconnected!`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
-          .then((result) => {
+          .then(() => {
             socket.join(dataRoom[0].name);
           });
       })
