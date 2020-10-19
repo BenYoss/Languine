@@ -10,8 +10,14 @@ const roomSchema = new mongoose.Schema({
   created_at: Date,
 });
 
+const passwordSchema = new mongoose.Schema({
+  password: String,
+  room: String,
+});
+
 // Room model class declared
 const Room = mongoose.model('Room', roomSchema);
+const RoomPass = mongoose.model('RoomPass', passwordSchema);
 
 //----------------------------------------------------------------------
 //                            ROOM METHODS
@@ -41,8 +47,27 @@ const getRooms = (options) => Room.find(options).sort().exec();
 
 const deleteRoom = (id) => Room.deleteOne({ _id: id }).exec();
 
+const createPassword = ({ password, roomName }) => {
+  const pass = new RoomPass({ password, room: roomName });
+  return RoomPass.findOne({ _id: pass.Id })
+    .then((match) => {
+      if (!match) {
+        return pass.save();
+      }
+      return match;
+    })
+    .catch((err) => console.error(err));
+};
+
+const getPassword = ({ roomName }) => RoomPass.findOne({ room: roomName }).exec();
+
+const deletePassword = ({ roomName }) => RoomPass.deleteOne({ room: roomName }).exec();
+
 module.exports = {
   addRoom,
   getRooms,
   deleteRoom,
+  createPassword,
+  getPassword,
+  deletePassword,
 };
