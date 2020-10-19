@@ -1,6 +1,8 @@
 import React from 'react';
 import '../../styles/message.css';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import { Nav } from 'react-bootstrap';
 import { deleteMessage } from '../../helpers/helpers';
 
 function Message({
@@ -9,6 +11,7 @@ function Message({
   }, name, host, reloader, account,
 }) {
   let isSentByCurrentUser = false;
+  const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
 
   if (name_user === name) {
     isSentByCurrentUser = true;
@@ -23,12 +26,27 @@ function Message({
           ) : ''}
         </div>
         <div className="messageContainer justifyEnd">
-          <p className="date">{timestamp.slice(0, 9)}</p>
+          <p className="date">{moment(timestamp).fromNow()}</p>
           <p className="sentText pr-10">{name}</p>
           <div className="messageBox backgroundBlue">
-            <p className="messageText colorWhite">{text}</p>
+            {
+              text.includes('https://storage.googleapis.com/languine.appspot.com/')
+                ? imageTypes.map((type) => {
+                  if (text.includes(type)) {
+                    return (
+                      <img src={text} alt="" width="65%" height="90%" />
+                    );
+                  }
+                  return '';
+                })
+                : (
+                  <div>
+                    <p className="messageText colorWhite">{text}</p>
+                  </div>
+                )
+            }
           </div>
-          <img className="imgIcon" src={thumbnail_user} alt="" />
+          <img src={thumbnail_user} alt="" width="70" height="70" />
           <div className="d">
             <button className="messageText colorWhite" type="submit" onClick={() => deleteMessage(_id).then(() => { reloader(); }).catch((err) => console.error(err))}>x</button>
           </div>
@@ -49,11 +67,29 @@ function Message({
               </button>
             ) : ''}
         </div>
-        <img className="imgIcon" src={thumbnail_user} alt="" />
+        <Nav.Link href={`/user?id=${name_user}`}>
+          <img src={thumbnail_user} alt="" width="70" height="70" />
+        </Nav.Link>
         <div className="messageBox backgroundLight">
-          <p className="messageText colorDark">{text}</p>
+          {
+              text.includes('https://storage.googleapis.com/languine.appspot.com/')
+                ? imageTypes.map((type) => {
+                  if (text.includes(type)) {
+                    return (
+                      <img src={text} alt="" width="65%" height="90%" />
+                    );
+                  }
+                  return '';
+                })
+                : (
+                  <div>
+                    <p className="messageText colorDark">{text}</p>
+                  </div>
+                )
+            }
         </div>
         <p className="sentText pl-10">{name_user}</p>
+        <p className="date">{moment(timestamp).fromNow()}</p>
       </div>
     )
   );
