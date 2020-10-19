@@ -8,34 +8,34 @@ function NavBar({ user }) {
   return (
     <Navbar bg="dark" variant="dark">
       <Nav.Link href="/"><img width="60" height="60" src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" /></Nav.Link>
-      <Nav className="m-auto">
+      <Nav className="m-auto align-items-start">
         {
               user
                 ? (
-                  <Nav className="m-auto justify-content-end">
-                    <Nav.Link className="btn" href="/fileupload" placement="left">
-                      <h2>Translate Files</h2>
+                  <Nav className="m-auto justify-content-start">
+                    <Nav.Link href="/fileupload" placement="left" variant="dark">
+                      <h4>Translate Files</h4>
                     </Nav.Link>
-                    <Nav.Link className="btn" href="/join" placement="left">
-                      <h2>Create a Room</h2>
+                    <Nav.Link href="/join" placement="left" variant="dark">
+                      <h4>Create a Room</h4>
                     </Nav.Link>
-                    <Nav.Link className="btn" href="/roomlist" placement="left">
-                      <h2>Find Rooms</h2>
+                    <Nav.Link href="/roomlist" placement="left" variant="dark">
+                      <h4>Find Rooms</h4>
                     </Nav.Link>
-                    <Nav.Link className="btn" href={`/profile?id=${user.id_google}`} placement="left">
-                      <h2>Profile</h2>
+                    <Nav.Link href={`/profile?id=${user.id_google}`} placement="left" variant="dark">
+                      <h4>Profile</h4>
                     </Nav.Link>
-                    <h2 className="justify-content-end">
+                    <h4 className="justify-content-end">
                       <img className="thumbnail" width="60" height="60" src={user.thumbnail} alt="" />
-                    </h2>
+                    </h4>
                     <Nav.Link className="justify-content-end" href="/logout" style={{ marginLeft: '100px' }}>
-                      <h2>Logout</h2>
+                      <h4>Logout</h4>
                     </Nav.Link>
                   </Nav>
                 )
                 : (
                   <Nav.Link className="justify-content-end" href="/login" style={{ marginLeft: '100px' }}>
-                    <h2>Login</h2>
+                    <h4>Login</h4>
                   </Nav.Link>
                 )
         }
@@ -45,7 +45,11 @@ function NavBar({ user }) {
 }
 
 NavBar.propTypes = {
-  user: PropTypes.element.isRequired,
+  user: PropTypes.string || PropTypes.object,
+};
+
+NavBar.defaultProps = {
+  user: undefined,
 };
 
 export default NavBar;

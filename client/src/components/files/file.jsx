@@ -10,6 +10,7 @@ let counter = 1;
 function File() {
   const [file, setFile] = useState([]);
   const [page, setPage] = useState('');
+  const [pageCanv, setPageCanv] = useState('');
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   useEffect(() => {
     const { id } = query.parse(window.location.search);
@@ -21,7 +22,8 @@ function File() {
       .catch((err) => console.error(err));
   }, []);
   const renderPDF = (preFile, bool) => {
-    pdfjs.getDocument({ data: preFile[0].filetext }).promise.then((doc) => {
+    console.log(preFile.filetext, 'tetsst');
+    pdfjs.getDocument({ url: preFile.filetext }).promise.then((doc) => {
       const { _pdfInfo } = doc;
       console.log(`This file has ${_pdfInfo.numPages} pages`);
       if (bool) {
@@ -36,6 +38,17 @@ function File() {
         counter = 1;
       }
       doc.getPage(counter).then((pageData) => {
+        const canvas = document.getElementById('pdf-canvas');
+        const context = canvas.getContext('2d');
+        const vport = pageData.getViewport({ scale: counter });
+        canvas.width = vport.width;
+        canvas.height = vport.height;
+
+        pageData.render({
+          canvasContext: context,
+          viewport: vport,
+        });
+
         pageData.getTextContent()
           .then((data) => {
             const joiner = [];
@@ -50,14 +63,25 @@ function File() {
   };
 
   return (
-    <div>
-      <ScrollToBottom className="">
-        <p style={{ maxHeight: '300px' }}>{page}</p>
-      </ScrollToBottom>
-      <Navbar bg="dark" variant="dark" className="page-btn">
+    <div className="mt-6">
+      <h4 className="text-center">{file.title}</h4>
+      <Navbar bg="dark" variant="dark" className="page-btn text-black bg-light my-5 py-4">
         <button type="submit" onClick={() => { renderPDF(file, false); }}>Prev Page</button>
+        <p className="text-white  ml-4 mr-4">{`pg: ${counter}`}</p>
         <button type="submit" onClick={() => { renderPDF(file, true); }}>Next Page</button>
       </Navbar>
+      <div className="d-flex justify-content-between mt-6">
+        <ScrollToBottom className="">
+          <div>
+            <p style={{ maxHeight: '300px', maxWidth: '400px' }}>{page}</p>
+          </div>
+        </ScrollToBottom>
+        <ScrollToBottom className="">
+          <div style={{ maxHeight: '600px' }}>
+            <canvas id="pdf-canvas" style={{ maxWidth: '700px' }}>{pageCanv}</canvas>
+          </div>
+        </ScrollToBottom>
+      </div>
     </div>
   );
 }

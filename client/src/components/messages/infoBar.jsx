@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { getRoom, deleteRoom, deleteMessages } from '../../helpers/helpers';
 
@@ -29,7 +30,7 @@ function InfoBar({
       </div>
       <div>
         {host === account ? (
-          <button
+          <Button
             className="messageText colorWhite"
             type="submit"
             onClick={
@@ -42,9 +43,10 @@ function InfoBar({
                 .catch((err) => console.error(err));
             }
           }
+            width="30"
           >
             Delete Room
-          </button>
+          </Button>
         ) : ''}
       </div>
     </div>

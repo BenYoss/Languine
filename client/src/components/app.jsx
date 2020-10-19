@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { getUser } from '../helpers/helpers';
+import { getAccount, getUsers } from '../helpers/helpers';
 import Chat from './messages/chat';
 import Homepage from './homepage';
 import Join from './join';
@@ -9,15 +9,21 @@ import NavBar from './navBar';
 import Profile from './profile';
 import Bucket from './files/bucket';
 import File from './files/file';
+import UserProfiles from './userProfiles';
 
 function App() {
   const [user, setUser] = useState('');
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    getUser()
+    getAccount()
       .then((userInfo) => {
         setUser(userInfo);
         window.language = userInfo.language;
+        getUsers()
+          .then((userList) => {
+            setUsers(userList);
+          });
       });
   }, []);
 
@@ -38,10 +44,15 @@ function App() {
           <Join />
         </Route>
         <Route path="/roomlist">
-          <RoomList />
+          {users.length ? (
+            <RoomList users={users} />
+          ) : ''}
         </Route>
         <Route path="/file">
           <File />
+        </Route>
+        <Route path="/user">
+          <UserProfiles />
         </Route>
         <Route path="/profile">
           <Profile user={user} />

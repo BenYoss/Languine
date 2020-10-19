@@ -4,8 +4,9 @@ import io from 'socket.io-client';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import InfoBar from './infoBar';
 import Message from './message';
+import Bucket from '../files/bucket';
 import '../../styles/chat.css';
-import { getMessages, getRoom, getUser } from '../../helpers/helpers';
+import { getMessages, getRoom, getAccount } from '../../helpers/helpers';
 
 let socket;
 
@@ -59,7 +60,7 @@ function Chat() {
       .catch((err) => console.error(err));
   };
   useEffect(() => {
-    getUser()
+    getAccount()
       .then((userData) => {
         setAccount(userData.id_google);
       })
@@ -80,6 +81,14 @@ function Chat() {
     }
   };
 
+  const sendImage = (image) => {
+    console.log('I am image', image);
+    if (image) {
+      socket.emit('sendMessage', image, () => setMessage(''));
+      setMessage('');
+    }
+  };
+
   return (
     <div className="background">
       <div className="container">
@@ -93,25 +102,23 @@ function Chat() {
         </h2>
         <InfoBar room={roomType} name={nameuser} host={host} account={account} />
         <div>
-          <p>
-            <ScrollToBottom className="containermsg">
-              {messages.map((messagee) => (
-                <div key={Math.random()}>
-                  <Message
-                    message={messagee}
-                    name={nameuser}
-                    host={host}
-                    reloader={reloader}
-                    account={account}
-                    reload={reload}
-                  />
-                </div>
-              ))}
-            </ScrollToBottom>
-          </p>
+          <ScrollToBottom className="containermsg">
+            {messages.map((messagee) => (
+              <div key={Math.random()}>
+                <Message
+                  message={messagee}
+                  name={nameuser}
+                  host={host}
+                  reloader={reloader}
+                  account={account}
+                  reload={reload}
+                />
+              </div>
+            ))}
+          </ScrollToBottom>
         </div>
 
-        <div className="outercontainer">
+        <div className="outercontainer message">
           <form className="form">
             <textarea
               className="input"
@@ -122,6 +129,9 @@ function Chat() {
             />
             <button className="sendButton" type="submit" onClick={(event) => { sendMessage(event); setMessage(''); }}>Send</button>
           </form>
+        </div>
+        <div className="outercontainer image">
+          <Bucket sendMessage={sendImage} />
         </div>
       </div>
     </div>

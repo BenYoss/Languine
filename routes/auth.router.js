@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const { Room } = require('../database/models/models');
 require('../auth/googleStrategy');
 
 const authRouter = express.Router();
@@ -37,6 +38,25 @@ authRouter.get('/logout', (req, res) => {
 authRouter.get('/session', (req, res) => {
   console.log(req.user, req.session, 'test');
   res.send(req.user);
+});
+
+authRouter.get('/roomauth', (req, res) => {
+  Room.getPassword(req.query)
+    .then((password) => {
+      res.status(200).send(password);
+    })
+    .catch(() => res.status(500).end());
+});
+
+authRouter.post('/roomauth', (req, res) => {
+  console.log(req.body);
+  Room.createPassword(req.body)
+    .then(() => {
+      console.log('SUCCESS');
+      res.status(201).end();
+    })
+    .catch(() => res.status(500).end());
+  res.end();
 });
 
 module.exports = {

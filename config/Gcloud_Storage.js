@@ -1,13 +1,13 @@
+require('dotenv').config();
 require('util');
 
 const gc = require('./index.config');
 
-const bucket = gc.bucket('languine.appspot.com');
+const bucket = gc.bucket(process.env.BUCKET_NAME);
 
 const uploadFile = (file) => new Promise((res, rej) => {
   const { originalname, buffer } = file;
   const blob = bucket.file(originalname.replace(/ /g, '_'));
-  console.log(blob);
   const blobStream = blob.createWriteStream({
     resumable: true,
   });
@@ -19,7 +19,7 @@ const uploadFile = (file) => new Promise((res, rej) => {
     .on('error', (err) => {
       console.error(err);
       rej(err, 'Failed to upload File');
-    });
+    }).end(buffer);
 });
 
 module.exports = {

@@ -6,31 +6,27 @@ const dbrouter = express.Router();
 dbrouter.get('/users', (req, res) => {
   User.findUsers(req.query)
     .then((result) => {
-      res.send(result);
+      res.status(200).send(result);
     })
-    .catch((err) => {
-      console.error(err);
-      res.end();
+    .catch(() => {
+      res.status(500).end();
     });
-  // res.send('this');
 });
 
 dbrouter.post('/users', (req, res) => {
   User.addUser(req.body)
     .then(() => {
-      console.log('user successfully added!');
+      res.status(201).send('this is the poster for users');
     })
-    .catch((err) => console.error(err));
-
-  res.send('this is the getter for users');
+    .catch(() => res.status(500).end());
 });
 
 dbrouter.get('/rooms', (req, res) => {
   Room.getRooms(req.query)
     .then((rooms) => {
-      res.send(rooms);
+      res.status(200).send(rooms);
     })
-    .catch((err) => console.error(err));
+    .catch(() => res.status(500).end());
   // res.send('this is the getter for rooms');
 });
 
@@ -38,50 +34,50 @@ dbrouter.post('/rooms', (req, res) => {
   Room.addRoom(req.body)
     .then(() => {
     })
-    .catch((err) => console.error(err));
+    .catch(() => res.status(500).end());
   res.send('rooms');
 });
 
 dbrouter.delete('/rooms', (req, res) => {
   Room.deleteRoom(req.query)
     .then(() => {
-      res.send('room deleted');
+      res.status(200).send('room deleted');
     })
-    .catch((err) => console.error(err));
+    .catch(() => res.status(500).end());
 });
 
 dbrouter.get('/languages', (req, res) => {
-  res.send('this is the getter for languages');
+  res.status(200).send('this is the getter for languages');
 });
 
 dbrouter.get('/messages', (req, res) => {
   Message.getMessages(req.query)
     .then((messages) => {
-      res.send(messages);
+      res.status(200).send(messages);
     })
-    .catch((err) => console.error(err));
+    .catch(() => res.status(500).end());
 });
 
 dbrouter.post('/messages', (req, res) => {
   Message.addMessage(req.body)
     .then(() => {
       console.log('message saved to DB');
+      res.status(201).end();
     })
-    .catch((err) => console.error(err));
-  res.end();
+    .catch(() => res.status(500).end());
 });
 
 dbrouter.delete('/messages', (req, res) => {
   Message.deleteMessage(req.query)
     .then(() => {
       console.log('message removed from DB');
+      res.status(200).end();
     })
-    .catch((err) => console.error(err));
-  res.end();
+    .catch(() => res.status(500).end());
 });
 
 dbrouter.get('/files', (req, res) => {
-  res.send('this is the getter for files');
+  res.status(200).send('this is the getter for files');
 });
 
 module.exports = {
