@@ -18,8 +18,8 @@
   .imgIcon {
     display: flex;
     justify-content: flex-end;
-    width: 10%;
-    height: 10%;
+    width: 10;
+    height: 10;
   }
   
   .messageText img {
