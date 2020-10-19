@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 
-function Bucket() {
+function Bucket({ sendMessage }) {
   const [fileCollection, setFiles] = useState([]);
 
   const onFileChange = (files) => {
@@ -15,9 +15,13 @@ function Bucket() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('fileUpload', fileCollection[0][0], fileCollection[0][0].name);
-    axios.post('api/uploads', formData, { headers: { 'Content-Type': 'multipart/form-data' } }, {
+    axios.post('api/bucket', formData, { headers: { 'Content-Type': 'multipart/form-data' } }, {
     }).then((res) => {
       console.log(res.data);
+      if (res.data.includes('.gif') || res.data.includes('.jpg') || res.data.includes('.png')) {
+        console.log(res.data, 'this is the data');
+        sendMessage(res.data);
+      }
     }).catch((err) => console.error(err));
   };
 
