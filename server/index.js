@@ -99,10 +99,17 @@ io.on('connection', (socket) => {
         Message.addMessage('admin', user.id_room, `${user.username} has disconnected!`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
           .then(() => {
             socket.join(dataRoom[0].name);
+            User.updateUserRoom(user.id_google, 'null')
+              .then()
+              .catch((err) => console.error(err));
           });
       })
       .catch((err) => console.error(err));
   });
+});
+
+app.get('/404', (req, res) => {
+  res.send('404! RETURN BACK!');
 });
 
 // static files and route utilities
@@ -112,6 +119,9 @@ app.use('/api', apiRouter);
 
 // route to serve static html and client-side routes
 app.get('/*', (req, res) => {
+  if (!req.user) {
+    res.redirect('/404');
+  }
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
