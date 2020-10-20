@@ -28,7 +28,10 @@ const addFile = (userId, fileText, title, size) => {
 
 const getFiles = (options) => File.find(options).sort().exec();
 
+const deleteFile = (id) => File.deleteOne({ _id: id }).exec();
+
 module.exports = {
   addFile,
   getFiles,
+  deleteFile,
 };
