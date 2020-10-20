@@ -30,6 +30,15 @@ apiRouter.post('/bucket', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+apiRouter.delete('/bucket', (req, res) => {
+  const { id } = req.query;
+  File.deleteFile(id)
+    .then(() => {
+      console.log('file has been deleted');
+    })
+    .catch(() => res.status(500).end());
+});
+
 module.exports = {
   apiRouter,
 };

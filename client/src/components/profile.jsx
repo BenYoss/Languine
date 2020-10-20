@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Nav } from 'react-bootstrap';
 import query from 'query-string';
-import { getFiles } from '../helpers/helpers';
+import { getFiles, deleteFile } from '../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/profile.css';
 
-const bgImage = "https://www.featurepics.com/StockImage/20061128/sycamore-maple-leaf-background-stock-picture-150767.jpg";
+const bgImage = 'https://www.featurepics.com/StockImage/20061128/sycamore-maple-leaf-background-stock-picture-150767.jpg';
 function Profile({ user }) {
   const [files, setFiles] = useState([]);
   const { id } = query.parse(window.location.search);
@@ -48,6 +48,16 @@ function Profile({ user }) {
                 <div className="file col-lg-5" width="200" key={Math.random()}>
                   <div className="card text-black bg-light my-5 py-4 text-center">
                     <div className="card-body">
+                      <div>
+                        <button
+                          className="d-flex justify-content-start"
+                          type="submit"
+                          onClick={() => deleteFile(file._id).then(() => window.location.reload())
+                            .catch((err) => console.error(err))}
+                        >
+                          x
+                        </button>
+                      </div>
                       <div className="card-title">
                         <p>{file.title}</p>
                       </div>

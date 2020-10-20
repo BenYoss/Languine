@@ -123,3 +123,11 @@ export const addPassword = (pass, room) => new Promise((res, rej) => {
     })
     .catch((err) => rej(err));
 });
+
+export const deleteFile = (file) => new Promise((res, rej) => {
+  axios.delete('/api/bucket', { params: { id: file } })
+    .then((fileData) => {
+      res(fileData);
+    })
+    .catch((err) => rej(err));
+});
