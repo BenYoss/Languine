@@ -11,7 +11,7 @@
     justify-content: space-between;
     background: #FFFFFF;
     border-radius: 8px;
-    min-height: 300px;
+    min-height: 400px;
     width: 60%;
   }
 
@@ -21,7 +21,7 @@
     justify-content: space-between;
     background: #FFFFFF;
     border-radius: 8px;
-    height: 300px;
+    height: 400px;
   }
 
   .background {
