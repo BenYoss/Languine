@@ -19,14 +19,11 @@ function InfoBar({
     <div className="infoBar">
       <div className="leftInnerContainer">
         <img className="onlineIcon" src={imageIcon} alt="" />
-        <h2>
+        <h3>
           {room}
           :
           {name}
-        </h2>
-      </div>
-      <div className="rightInnerContainer">
-        <img className="onlineIcon" src={imageIcon} alt="" />
+        </h3>
       </div>
       <div>
         {host === account ? (
@@ -48,6 +45,9 @@ function InfoBar({
             Delete Room
           </Button>
         ) : ''}
+      </div>
+      <div className="rightInnerContainer">
+        <img className="onlineIcon" src={imageIcon} alt="" />
       </div>
     </div>
   );

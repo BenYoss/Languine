@@ -22,11 +22,11 @@ function Message({
       <div>
         <div>
           {host === account ? (
-            <p style={{ marginLeft: '800px' }}>host</p>
+            <p className="sentText" style={{ marginLeft: '700px' }}>HOST</p>
           ) : ''}
         </div>
         <div className="messageContainer justifyEnd">
-          <p className="date">{moment(timestamp).fromNow()}</p>
+          <p className="date sentText pr-10">{moment(timestamp).fromNow()}</p>
           <p className="sentText pr-10">{name}</p>
           <div className="messageBox backgroundBlue">
             {
@@ -89,7 +89,7 @@ function Message({
             }
         </div>
         <p className="sentText pl-10">{name_user}</p>
-        <p className="date">{moment(timestamp).fromNow()}</p>
+        <p className="date sentText pl-10">{moment(timestamp).fromNow()}</p>
       </div>
     )
   );

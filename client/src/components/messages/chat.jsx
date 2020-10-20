@@ -92,14 +92,6 @@ function Chat() {
   return (
     <div className="background">
       <div className="container">
-        <h1>This will be the chat</h1>
-        <h2>
-          {nameuser}
-          {' '}
-          in Room:
-          {' '}
-          {roomType}
-        </h2>
         <InfoBar room={roomType} name={nameuser} host={host} account={account} />
         <div>
           <ScrollToBottom className="containermsg">
