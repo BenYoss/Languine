@@ -2,7 +2,7 @@
 
 .card {
     padding-top: 20px;
-    margin: 10px 0 20px 0;
+    margin: 20px 100px 20px 100px;
     background-color: rgba(214, 224, 226, 0.2);
     border-top-width: 0;
     border-bottom-width: 2px;
@@ -60,7 +60,7 @@
 
 .card .card-body {
     padding: 0 20px;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .card .card-media {
@@ -194,7 +194,7 @@
 }
 
 .card.hovercard .cardheader {
-    background: url("https://www.featurepics.com/StockImage/20061128/sycamore-maple-leaf-background-stock-picture-150767.jpg");
+    background: url("https://ak.picdn.net/shutterstock/videos/17482027/thumb/1.jpg");
     background-size: cover;
     height: 135px;
 }
