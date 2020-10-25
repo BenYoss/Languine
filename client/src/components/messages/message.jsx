@@ -7,8 +7,8 @@ import { deleteMessage } from '../../helpers/helpers';
 
 function Message({
   message: {
-    name_user, text, thumbnail_user, _id, timestamp,
-  }, name, host, reloader, account,
+    name_user, text, thumbnail_user, _id, timestamp, id_user,
+  }, name, host, reloader, account, d,
 }) {
   let isSentByCurrentUser = false;
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
@@ -23,7 +23,7 @@ function Message({
       <div>
         <div>
           {host === account ? (
-            <p className="sentText" style={{ marginLeft: '700px' }}>HOST</p>
+            <p className="badge badge-primary sentText" style={{ marginLeft: '700px' }}>HOST</p>
           ) : ''}
         </div>
         <div className="messageContainer justifyEnd">
@@ -34,11 +34,11 @@ function Message({
               text.includes('https://') || text.includes('http://')
                 ? (
                   <div>
-                    <a className="messageText colorDark" href={text}>{text}</a>
+                    <a className="messageText colorWhite" href={text}>{text}</a>
                   </div>
                 ) : (
                   <div>
-                    <p className="messageText colorDark">{text}</p>
+                    <p className="messageText colorWhite">{text}</p>
                   </div>
                 )
             }
@@ -70,6 +70,11 @@ function Message({
       </div>
     ) : (
       <div className="messageContainer justifyStart">
+        <div>
+          {host === id_user && account !== host ? (
+            <p className="badge badge-primary sentText">HOST</p>
+          ) : ''}
+        </div>
         <div className="d">
           {host === account
             ? (
@@ -91,11 +96,11 @@ function Message({
               text.includes('https://') || text.includes('http://')
                 ? (
                   <div>
-                    <a className="messageText colorDark" href={text}>{text}</a>
+                    <a className="messageText colorDark 2" href={text}>{text}</a>
                   </div>
                 ) : (
                   <div>
-                    <p className="messageText colorDark">{text}</p>
+                    <p className="messageText colorDark 2">{text}</p>
                   </div>
                 )
             }
@@ -103,12 +108,13 @@ function Message({
               text.includes('https://') || text.includes('http://')
                 ? imageTypes.map((type) => {
                   if (text.includes(type)) {
+                    console.log(host, 'I AM HOST!', d, 'I AM DDDDDD');
                     return [
                       <img src={text} alt="" width="65%" height="90%" />,
                     ];
                   }
                   return undefined;
-                })[0]
+                }).filter((value) => value !== undefined).pop()
                 || videoTypes.map((vidType) => {
                   if (text.includes(vidType)) {
                     return (
@@ -132,6 +138,7 @@ Message.propTypes = {
   host: PropTypes.string.isRequired,
   reloader: PropTypes.element.isRequired,
   account: PropTypes.string.isRequired,
+  d: PropTypes.string.isRequired,
 };
 
 export default Message;

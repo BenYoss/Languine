@@ -95,7 +95,7 @@ function RoomList({ users }) {
                     <div className="card-header">
                       <h3 className="roomDesc d-flex justify-content-center">{room.name}</h3>
                       <div className="d-flex justify-content-center">
-                        <Button type="submit" onClick={() => { opener[`${room._id}`] = !opener[`${room._id}`]; setReload([]); }}>{`${counter[`${room.name}`] ? counter[`${room.name}`] : '0'}  Users`}</Button>
+                        <Button className="btn-dark rounded" type="submit" onClick={() => { opener[`${room._id}`] = !opener[`${room._id}`]; setReload([]); }}>{'Users '}<span className="badge badge-light" style={{ marginLeft: '10px' }}>{counter[`${room.name}`] ? counter[`${room.name}`] : '0'}</span></Button>
                         <Collapse in={opener[`${room._id}`]} key={room._id}>
                           <div>
                             {usersNames.length ? (
