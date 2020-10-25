@@ -50,15 +50,16 @@ function RoomList({ users }) {
 
   useEffect(() => {
     rooms.forEach((room) => {
+      const { _id } = room;
       if (!counter[`${room.name}`]) {
         counter[`${room.name}`] = 0;
       }
-      opener[`${room._id}`] = false;
-      authOpener[`${room._id}`] = false;
-      roomOpener[`${room._id}`] = false;
+      opener[`${_id}`] = false;
+      authOpener[`${_id}`] = false;
+      roomOpener[`${_id}`] = false;
       if (usersIds.length) {
         usersIds.forEach((idUser) => {
-          if (idUser === room._id) {
+          if (idUser === _id) {
             counter[`${room.name}`] += 1;
           }
         });
@@ -71,11 +72,20 @@ function RoomList({ users }) {
       <h1 className="card-header bg-dark text-white d-flex join-header justify-content-center variant-dark">Room List</h1>
       <div className="roomListInnerContainer pl-5 pr-5">
         {rooms.length
-          ? rooms.map((room) => (
-            <div>
-              <div className="pl-5 pr-5 room" key={room._id} onClick={() => { roomOpener[`${room._id}`] = !roomOpener[`${room._id}`]; setReload([]); }}>
-                <div>
-                  {
+          ? rooms.map((room) => {
+            const { _id } = room;
+            return (
+              <div>
+                <div
+                  className="pl-5 pr-5 room"
+                  key={_id}
+                  onClick={() => {
+                    roomOpener[`${_id}`] = !roomOpener[`${_id}`]; setReload([]);
+                  }}
+                  onKeyDown={() => {}}
+                >
+                  <div>
+                    {
                     !room.is_public ? (
                       <div>
                         <h3>
@@ -87,69 +97,77 @@ function RoomList({ users }) {
                       <h3>{room.name}</h3>
                     )
                   }
+                  </div>
+                </div>
+                <div>
+                  <Collapse in={roomOpener[`${_id}`]}>
+                    <div className="card">
+                      <div className="card-header">
+                        <h3 className="roomDesc d-flex justify-content-center">{room.name}</h3>
+                        <div className="d-flex justify-content-center">
+                          <Button className="btn-dark rounded" type="submit" onClick={() => { opener[`${_id}`] = !opener[`${_id}`]; setReload([]); }}>
+                            {'Users '}
+                            <span className="badge badge-light" style={{ marginLeft: '10px' }}>{counter[`${room.name}`] ? counter[`${room.name}`] : '0'}</span>
+                          </Button>
+                          <Collapse in={opener[`${_id}`]} key={_id}>
+                            <div>
+                              {usersNames.length ? (
+                                usersNames.map((userName) => {
+                                  if (userName.id_room === _id) {
+                                    return (
+                                      <p>{userName.username}</p>
+                                    );
+                                  }
+                                  return '';
+                                })
+                              ) : ''}
+                            </div>
+                          </Collapse>
+                        </div>
+                      </div>
+                      <div className="card-body">
+                        <h4 className="roomDesc d-flex justify-content-center">{room.description}</h4>
+                      </div>
+                      <div className="card-footer">
+                        <div>
+                          {!room.is_public ? (
+                            <div className="roomDesc">
+                              <div className="roomDesc d-flex justify-content-center">
+                                <Button onClick={() => { authOpener[`${_id}`] = !authOpener[`${_id}`]; setReload([]); }}>
+                                  <h3 className="roomDesc d-flex justify-content-center">Join Room</h3>
+                                </Button>
+                              </div>
+                              <Modal show={authOpener[`${_id}`]} onHide={() => { authOpener[`${_id}`] = !authOpener[`${_id}`]; setReload([]); }} aria-labelledby="contained-modal-title-vcenter" centered>
+                                <Modal.Header closeButton>
+                                  <Modal.Title id="contained-modal-title-vcenter">
+                                    Enter Password
+                                  </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                  <RoomAuth
+                                    room={room.name}
+                                    userId={user.id_google}
+                                    user={user.username}
+                                  />
+                                </Modal.Body>
+                                <Modal.Footer />
+                              </Modal>
+                            </div>
+                          ) : (
+                            <div className="roomDesc d-flex justify-content-center">
+                              <Nav.Link style={{ color: 'black' }} href={`/discussion?name=${user.id_google}&room=${room.name}&user=${user.username}`}>
+                                <Button><h3 className="roomDesc d-flex justify-content-center">Join Room</h3></Button>
+                              </Nav.Link>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Collapse>
                 </div>
               </div>
-              <div>
-                <Collapse in={roomOpener[`${room._id}`]}>
-                  <div className="card">
-                    <div className="card-header">
-                      <h3 className="roomDesc d-flex justify-content-center">{room.name}</h3>
-                      <div className="d-flex justify-content-center">
-                        <Button className="btn-dark rounded" type="submit" onClick={() => { opener[`${room._id}`] = !opener[`${room._id}`]; setReload([]); }}>{'Users '}<span className="badge badge-light" style={{ marginLeft: '10px' }}>{counter[`${room.name}`] ? counter[`${room.name}`] : '0'}</span></Button>
-                        <Collapse in={opener[`${room._id}`]} key={room._id}>
-                          <div>
-                            {usersNames.length ? (
-                              usersNames.map((userName) => {
-                                if (userName.id_room === room._id) {
-                                  return (
-                                    <p>{userName.username}</p>
-                                  );
-                                }
-                                return '';
-                              })
-                            ) : ''}
-                          </div>
-                        </Collapse>
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <h4 className="roomDesc d-flex justify-content-center">{room.description}</h4>
-                    </div>
-                    <div className="card-footer">
-                      <div>
-                        {!room.is_public ? (
-                          <div className="roomDesc">
-                            <div className="roomDesc d-flex justify-content-center">
-                              <Button onClick={() => { authOpener[`${room._id}`] = !authOpener[`${room._id}`]; setReload([]); }}>
-                                <h3 className="roomDesc d-flex justify-content-center">Join Room</h3>
-                              </Button>
-                            </div>
-                            <Modal show={authOpener[`${room._id}`]} onHide={() => { authOpener[`${room._id}`] = !authOpener[`${room._id}`]; setReload([]); }} aria-labelledby="contained-modal-title-vcenter" centered>
-                              <Modal.Header closeButton>
-                                <Modal.Title id="contained-modal-title-vcenter">
-                                  Enter Password
-                                </Modal.Title>
-                              </Modal.Header>
-                              <Modal.Body>
-                                <RoomAuth room={room.name} userId={user.id_google} user={user.username} />
-                              </Modal.Body>
-                              <Modal.Footer />
-                            </Modal>
-                          </div>
-                        ) : (
-                          <div className="roomDesc d-flex justify-content-center">
-                            <Nav.Link style={{ color: 'black' }} href={`/discussion?name=${user.id_google}&room=${room.name}&user=${user.username}`}>
-                              <Button><h3 className="roomDesc d-flex justify-content-center">Join Room</h3></Button>
-                            </Nav.Link>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </Collapse>
-              </div>
-            </div>
-          ))
+            );
+          })
           : (
             <div>
               <h1>Sorry, but there are no rooms as of yet...</h1>

@@ -12,7 +12,7 @@ function UserProfiles() {
     getUser(id)
       .then((userData) => {
         setUser(userData);
-      })    
+      })
       .catch((err) => console.error(err));
   }, []);
 

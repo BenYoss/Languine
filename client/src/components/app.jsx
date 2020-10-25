@@ -61,8 +61,8 @@ function App() {
           </Route>
           <Route path="/404">
             <div className="card col-lg-14">
-            <img className="rounded mx-auto d-block" src="https://thumbs.gfycat.com/EveryWealthyHatchetfish-small.gif" width="600" height="300" alt="" />
-            <h1 className="text-center">404</h1>
+              <img className="rounded mx-auto d-block" src="https://thumbs.gfycat.com/EveryWealthyHatchetfish-small.gif" width="600" height="300" alt="" />
+              <h1 className="text-center">404</h1>
             </div>
           </Route>
         </Router>

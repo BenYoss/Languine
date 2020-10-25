@@ -8,7 +8,7 @@ import Message from './message';
 import Bucket from '../files/bucket';
 import '../../styles/chat.css';
 import {
-  getMessages, getRoom, getAccount, getUser,
+  getMessages, getRoom, getAccount,
 } from '../../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,7 +31,6 @@ function Chat() {
     } = query.parse(window.location.search);
 
     socket = io(process.env.SOCKET_HOST);
-    // setName(name);
     setRoom(room);
     setNameUser(user);
     setUserId(name);

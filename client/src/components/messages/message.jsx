@@ -6,15 +6,19 @@ import { Nav } from 'react-bootstrap';
 import { deleteMessage } from '../../helpers/helpers';
 
 function Message({
-  message: {
-    name_user, text, thumbnail_user, _id, timestamp, id_user,
-  }, name, host, reloader, account, d,
+  message, name, host, reloader, account, d,
 }) {
   let isSentByCurrentUser = false;
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
   const videoTypes = ['.mp4', '.mov', '.wmv', '.webm', '.ogg', '.mkv'];
+  const nameUser = message.name_user;
+  const thumbnailUser = message.thumbnail_user;
+  const idUser = message.id_user;
+  const {
+    text, _id, timestamp,
+  } = message;
 
-  if (name_user === name) {
+  if (nameUser === name) {
     isSentByCurrentUser = true;
   }
 
@@ -47,22 +51,25 @@ function Message({
                 ? imageTypes.map((type) => {
                   if (text.includes(type)) {
                     return [
-                      <img src={text} alt="" width="65%" height="90%" />,
+                      <img src={text} alt="" width="45%" height="70%" />,
                     ];
                   }
                   return undefined;
-                })[0]
+                }).filter((value) => value !== undefined).pop()
                 || videoTypes.map((vidType) => {
                   if (text.includes(vidType)) {
                     return (
-                      <video width="420" height="240" src={text} type="video/mp4" controls />
+                      <video width="420" height="240" src={text} type="video/mp4" controls>
+                        <track kind="captions" />
+                      </video>
                     );
                   }
+                  return '';
                 })
                 : ''
             }
           </div>
-          <img src={thumbnail_user} alt="" width="70" height="70" />
+          <img src={thumbnailUser} alt="" width="70" height="70" />
           <div className="d">
             <button className="messageText colorWhite" type="submit" onClick={() => deleteMessage(_id).then(() => { reloader(); }).catch((err) => console.error(err))}>x</button>
           </div>
@@ -71,7 +78,7 @@ function Message({
     ) : (
       <div className="messageContainer justifyStart">
         <div>
-          {host === id_user && account !== host ? (
+          {host === idUser && account !== host ? (
             <p className="badge badge-primary sentText">HOST</p>
           ) : ''}
         </div>
@@ -88,8 +95,8 @@ function Message({
               </button>
             ) : ''}
         </div>
-        <Nav.Link href={`/user?id=${name_user}`}>
-          <img src={thumbnail_user} alt="" width="70" height="70" />
+        <Nav.Link href={`/user?id=${nameUser}`}>
+          <img src={thumbnailUser} alt="" width="70" height="70" />
         </Nav.Link>
         <div className="messageBox backgroundLight">
           {
@@ -118,14 +125,17 @@ function Message({
                 || videoTypes.map((vidType) => {
                   if (text.includes(vidType)) {
                     return (
-                      <video width="420" height="240" src={text} type="video/mp4" controls />
+                      <video width="420" height="240" src={text} type="video/mp4" controls>
+                        <track kind="captions" />
+                      </video>
                     );
                   }
+                  return '';
                 })
                 : ''
             }
         </div>
-        <p className="sentText pl-10">{name_user}</p>
+        <p className="sentText pl-10">{nameUser}</p>
         <p className="date sentText pl-10">{moment(timestamp).fromNow()}</p>
       </div>
     )
