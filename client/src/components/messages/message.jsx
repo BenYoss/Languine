@@ -12,6 +12,7 @@ function Message({
 }) {
   let isSentByCurrentUser = false;
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
+  const videoTypes = ['.mp4', '.mov', '.wmv', '.webm', '.ogg', '.mkv'];
 
   if (name_user === name) {
     isSentByCurrentUser = true;
@@ -30,20 +31,35 @@ function Message({
           <p className="sentText pr-10">{name}</p>
           <div className="messageBox backgroundBlue">
             {
-              text.includes('https://storage.googleapis.com/languine.appspot.com/')
-                ? imageTypes.map((type) => {
-                  if (text.includes(type)) {
-                    return (
-                      <img src={text} alt="" width="65%" height="90%" />
-                    );
-                  }
-                  return '';
-                })
-                : (
+              text.includes('https://') || text.includes('http://')
+                ? (
                   <div>
-                    <p className="messageText colorWhite">{text}</p>
+                    <a className="messageText colorDark" href={text}>{text}</a>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="messageText colorDark">{text}</p>
                   </div>
                 )
+            }
+            {
+              text.includes('https://') || text.includes('http://')
+                ? imageTypes.map((type) => {
+                  if (text.includes(type)) {
+                    return [
+                      <img src={text} alt="" width="65%" height="90%" />,
+                    ];
+                  }
+                  return undefined;
+                })[0]
+                || videoTypes.map((vidType) => {
+                  if (text.includes(vidType)) {
+                    return (
+                      <video width="420" height="240" src={text} type="video/mp4" controls />
+                    );
+                  }
+                })
+                : ''
             }
           </div>
           <img src={thumbnail_user} alt="" width="70" height="70" />
@@ -72,20 +88,35 @@ function Message({
         </Nav.Link>
         <div className="messageBox backgroundLight">
           {
-              text.includes('https://storage.googleapis.com/languine.appspot.com/')
-                ? imageTypes.map((type) => {
-                  if (text.includes(type)) {
-                    return (
-                      <img src={text} alt="" width="65%" height="90%" />
-                    );
-                  }
-                  return '';
-                })
-                : (
+              text.includes('https://') || text.includes('http://')
+                ? (
+                  <div>
+                    <a className="messageText colorDark" href={text}>{text}</a>
+                  </div>
+                ) : (
                   <div>
                     <p className="messageText colorDark">{text}</p>
                   </div>
                 )
+            }
+          {
+              text.includes('https://') || text.includes('http://')
+                ? imageTypes.map((type) => {
+                  if (text.includes(type)) {
+                    return [
+                      <img src={text} alt="" width="65%" height="90%" />,
+                    ];
+                  }
+                  return undefined;
+                })[0]
+                || videoTypes.map((vidType) => {
+                  if (text.includes(vidType)) {
+                    return (
+                      <video width="420" height="240" src={text} type="video/mp4" controls />
+                    );
+                  }
+                })
+                : ''
             }
         </div>
         <p className="sentText pl-10">{name_user}</p>
