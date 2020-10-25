@@ -7,6 +7,7 @@ import Message from './message';
 import Bucket from '../files/bucket';
 import '../../styles/chat.css';
 import { getMessages, getRoom, getAccount } from '../../helpers/helpers';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 let socket;
 
