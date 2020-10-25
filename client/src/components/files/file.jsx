@@ -10,7 +10,6 @@ let counter = 1;
 function File() {
   const [file, setFile] = useState([]);
   const [page, setPage] = useState('');
-  const [pageCanv, setPageCanv] = useState('');
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   useEffect(() => {
     const { id } = query.parse(window.location.search);
@@ -78,7 +77,7 @@ function File() {
         </ScrollToBottom>
         <ScrollToBottom className="">
           <div style={{ maxHeight: '600px' }}>
-            <canvas id="pdf-canvas" style={{ maxWidth: '700px' }}>{pageCanv}</canvas>
+            <canvas id="pdf-canvas" style={{ maxWidth: '700px' }} />
           </div>
         </ScrollToBottom>
       </div>
