@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { getPassword } from '../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RoomAuth({ room, userId, user }) {
   const [pass, setPass] = useState('');
-  const [, setReload] = useState([]);
 
   const comparePass = (password) => {
     console.log(password);
@@ -26,5 +26,11 @@ function RoomAuth({ room, userId, user }) {
     </div>
   );
 }
+
+RoomAuth.propTypes = {
+  room: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
+};
 
 export default RoomAuth;

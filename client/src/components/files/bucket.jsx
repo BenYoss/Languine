@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FilePond } from 'react-filepond';
 import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import 'filepond/dist/filepond.min.css';
 
 function Bucket({ sendMessage }) {
@@ -23,13 +24,11 @@ function Bucket({ sendMessage }) {
       console.log(res.data);
       imageTypes.forEach((imgType) => {
         if (res.data.includes(imgType)) {
-          console.log(res.data, 'this is the data');
           sendMessage(res.data);
         }
       });
       videoTypes.forEach((vidType) => {
         if (res.data.includes(vidType)) {
-          console.log(res.data, 'this is the data');
           sendMessage(res.data);
         }
       });
@@ -57,5 +56,9 @@ function Bucket({ sendMessage }) {
     </div>
   );
 }
+
+Bucket.propTypes = {
+  sendMessage: PropTypes.element.isRequired,
+};
 
 export default Bucket;

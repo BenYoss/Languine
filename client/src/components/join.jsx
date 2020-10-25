@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import { Collapse, Button } from 'react-bootstrap';
 import { getAccount, addPassword, hash } from '../helpers/helpers';
