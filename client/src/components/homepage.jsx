@@ -30,7 +30,9 @@ function Homepage({ user }) {
           </div>
         </Collapse>
       ) : ''}
-      <h1>This will be the homepage</h1>
+      <div style={{ opacity: '70%', backgroundImage: 'url(https://i.ytimg.com/vi/6aVOjLuw-Qg/maxresdefault.jpg)', minHeight: '500px' }}>
+        <h1 className="bg-dark text-white display-1 absolute-bottom" style={{ opacity: '90%' }}>Welcome to Languine!</h1>
+      </div>
     </div>
   );
 }
