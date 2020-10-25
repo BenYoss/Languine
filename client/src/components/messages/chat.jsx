@@ -2,20 +2,25 @@ import React, { useEffect, useState } from 'react';
 import query from 'query-string';
 import io from 'socket.io-client';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import { Button, Collapse } from 'react-bootstrap';
 import InfoBar from './infoBar';
 import Message from './message';
 import Bucket from '../files/bucket';
 import '../../styles/chat.css';
-import { getMessages, getRoom, getAccount } from '../../helpers/helpers';
+import {
+  getMessages, getRoom, getAccount, getUser,
+} from '../../helpers/helpers';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 let socket;
+const toggles = { text: true, upload: false };
 
 function Chat() {
-  // const [username, setName] = useState('');
   const [nameuser, setNameUser] = useState('');
   const [roomType, setRoom] = useState('');
   const [message, setMessage] = useState('');
   const [host, setHost] = useState('');
+  const [userId, setUserId] = useState('');
   const [messages, setMessages] = useState([]);
   const [reload, setReload] = useState([]);
   const [account, setAccount] = useState([]);
@@ -29,6 +34,7 @@ function Chat() {
     // setName(name);
     setRoom(room);
     setNameUser(user);
+    setUserId(name);
     socket.emit('join', {
       name, room, desc, pub,
     }, () => {
@@ -89,6 +95,16 @@ function Chat() {
     }
   };
 
+  const toggleTabs = (type) => {
+    if (type === 'text') {
+      toggles.text = true;
+      toggles.upload = false;
+    } else {
+      toggles.text = false;
+      toggles.upload = true;
+    }
+  };
+
   return (
     <div className="background">
       <div className="container">
@@ -104,27 +120,35 @@ function Chat() {
                   reloader={reloader}
                   account={account}
                   reload={reload}
+                  d={userId}
                 />
               </div>
             ))}
           </ScrollToBottom>
         </div>
-
-        <div className="outercontainer message">
-          <form className="form">
-            <textarea
-              className="input"
-              type="text"
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-              onKeyPress={(event) => (event.key === 'Enter' ? sendMessage(event) : null)}
-            />
-            <button className="sendButton" type="submit" onClick={(event) => { sendMessage(event); setMessage(''); }}>Send</button>
-          </form>
+        <div className="btn-group mr-2" role="group">
+          <Button type="button" className="btn-dark" onClick={() => { toggleTabs('text'); setReload([]); }}>Text</Button>
+          <Button type="button" className="btn-dark" onClick={() => { toggleTabs('upload'); setReload([]); }}>Upload</Button>
         </div>
-        <div className="outercontainer image">
-          <Bucket sendMessage={sendImage} />
-        </div>
+        <Collapse in={toggles.text}>
+          <div className="outercontainer message">
+            <form className="form">
+              <textarea
+                className="input"
+                type="text"
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                onKeyPress={(event) => (event.key === 'Enter' ? sendMessage(event) : null)}
+              />
+              <button className="sendButton" type="submit" onClick={(event) => { sendMessage(event); setMessage(''); }}>Send</button>
+            </form>
+          </div>
+        </Collapse>
+        <Collapse in={toggles.upload}>
+          <div className="outercontainer image" key={Math.random()}>
+            <Bucket sendMessage={sendImage} />
+          </div>
+        </Collapse>
       </div>
     </div>
   );

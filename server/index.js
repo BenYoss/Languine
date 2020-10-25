@@ -108,16 +108,16 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/404', (req, res) => {
-  res.send('404! RETURN BACK!');
-});
-
 // static files and route utilities
 app.use('/', dbrouter);
 app.use('/', authRouter);
 app.use('/api', apiRouter);
 
 // route to serve static html and client-side routes
+app.get('/404', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
+
 app.get('/*', (req, res) => {
   if (!req.user) {
     res.redirect('/404');

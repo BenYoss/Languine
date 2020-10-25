@@ -1,13 +1,14 @@
-import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Nav, Navbar, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/navBar.css';
 
 function NavBar({ user }) {
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark" sticky="top">
       <Nav.Link href="/"><img width="60" height="60" src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" /></Nav.Link>
+      <Button id="google_translate_element" className="d-flex bg-light p-1" />
       <Nav className="m-auto align-items-start">
         {
               user
@@ -26,7 +27,7 @@ function NavBar({ user }) {
                       <h4>Profile</h4>
                     </Nav.Link>
                     <h4 className="justify-content-end">
-                      <img className="thumbnail" width="60" height="60" src={user.thumbnail} alt="" />
+                      <img className="thumbnail rounded-circle" width="60" height="60" src={user.thumbnail} alt="" />
                     </h4>
                     <Nav.Link className="justify-content-end" href="/logout" style={{ marginLeft: '100px' }}>
                       <h4>Logout</h4>

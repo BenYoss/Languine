@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FilePond } from 'react-filepond';
+import { Route } from 'react-router-dom';
 import 'filepond/dist/filepond.min.css';
 
 function Bucket({ sendMessage }) {
   const [fileCollection, setFiles] = useState([]);
+  const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
+  const videoTypes = ['.mp4', '.mov', '.wmv', '.webm', '.ogg', '.mkv'];
 
   const onFileChange = (files) => {
     const items = files.map((fileItem) => fileItem.file);
@@ -18,20 +21,31 @@ function Bucket({ sendMessage }) {
     axios.post('api/bucket', formData, { headers: { 'Content-Type': 'multipart/form-data' } }, {
     }).then((res) => {
       console.log(res.data);
-      if (res.data.includes('.gif') || res.data.includes('.jpg') || res.data.includes('.png')) {
-        console.log(res.data, 'this is the data');
-        sendMessage(res.data);
-      }
+      imageTypes.forEach((imgType) => {
+        if (res.data.includes(imgType)) {
+          console.log(res.data, 'this is the data');
+          sendMessage(res.data);
+        }
+      });
+      videoTypes.forEach((vidType) => {
+        if (res.data.includes(vidType)) {
+          console.log(res.data, 'this is the data');
+          sendMessage(res.data);
+        }
+      });
     }).catch((err) => console.error(err));
   };
 
   return (
-    <div>
+    <div className="card">
       <form onSubmit={onSubmit}>
+        <Route path="/fileupload">
+          <h1 className="card-header bg-dark text-white d-flex join-header justify-content-center variant-dark">Upload PDF</h1>
+        </Route>
         <div className="form-group">
           <button className="btn btn-primary" type="submit">Upload</button>
         </div>
-        <div className="filepond-wrapper">
+        <div className="filepond-wrapper form-group">
           <FilePond
             files={fileCollection}
             server={null}

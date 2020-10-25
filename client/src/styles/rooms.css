@@ -2,13 +2,14 @@
     padding: 5% 0;
     overflow: auto;
     flex: auto;
+    margin: 0px, 100px, 0px, 100px;
 }
 
 .roomListHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #2979FF;
+    background: rgb(67, 121, 155);
     border-radius: 4px 4px 0 0;
     height: 60px;
     width: 100%;

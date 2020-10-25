@@ -14,7 +14,6 @@ function Profile({ user }) {
     getFiles(id)
       .then((fileData) => {
         setFiles(fileData);
-        console.log(fileData[1].filetext);
         const test = document.getElementById('cardheader');
         console.log(test);
       })
@@ -22,8 +21,8 @@ function Profile({ user }) {
   }, []);
 
   return (
-    <div className="container justify-content-center">
-      <div className="col-lg-10 col-sm-13">
+    <div className="container">
+      <div className="col-lg-13">
         <div className="card hovercard">
           <div className="cardheader" style={{ imageBG: bgImage }} />
           <div className="avatar">
@@ -40,27 +39,27 @@ function Profile({ user }) {
             </p>
           </div>
           <div className="bottom">
-            <h3 className="text-white btn-primary">My Translated PDF&apos;s</h3>
+            <h3 className="text-white btn-secondary">My Translated PDF&apos;s</h3>
           </div>
           <div className="file-list-map d-flex align-items-center flex-column">
             {files.length ? (
               files.map((file) => (
-                <div className="file col-lg-5" width="200" key={Math.random()}>
+                <div className="file col-lg-8" width="200" key={Math.random()}>
                   <div className="card text-black bg-light my-5 py-4 text-center">
+                    <div>
+                      <button
+                        className="d-flex justify-content-start"
+                        type="submit"
+                        onClick={() => deleteFile(file._id).then(() => window.location.reload())
+                          .catch((err) => console.error(err))}
+                      >
+                        x
+                      </button>
+                    </div>
+                    <div className="card-header bg-secondary text-white">
+                      <p>{file.title}</p>
+                    </div>
                     <div className="card-body">
-                      <div>
-                        <button
-                          className="d-flex justify-content-start"
-                          type="submit"
-                          onClick={() => deleteFile(file._id).then(() => window.location.reload())
-                            .catch((err) => console.error(err))}
-                        >
-                          x
-                        </button>
-                      </div>
-                      <div className="card-title">
-                        <p>{file.title}</p>
-                      </div>
                       <div className="card-text">
                         <p>{`${file.size} kb`}</p>
                         <p>{file.timestamp.slice(0, 10)}</p>

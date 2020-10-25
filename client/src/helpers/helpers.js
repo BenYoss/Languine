@@ -65,7 +65,7 @@ export const deleteMessage = (message) => new Promise((res, rej) => {
 export const getFiles = (idUser) => new Promise((res, rej) => {
   axios.get('/api/uploads', { params: { id_user: idUser } })
     .then((files) => {
-      console.log(files.data[0].id_user, idUser, idUser);
+      console.log(files.data.id_user, idUser, idUser);
       res(files.data);
     })
     .catch((err) => rej(err));
