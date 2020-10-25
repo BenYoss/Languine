@@ -35,6 +35,7 @@ apiRouter.delete('/bucket', (req, res) => {
   File.deleteFile(id)
     .then(() => {
       console.log('file has been deleted');
+      res.status(200).end();
     })
     .catch(() => res.status(500).end());
 });
