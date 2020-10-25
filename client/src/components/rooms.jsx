@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -26,6 +27,9 @@ function RoomList({ users }) {
         setRooms(roomData);
         getAccount()
           .then((userInfo) => {
+            if (!userInfo) {
+              window.location.href = '/404';
+            }
             setUser(userInfo);
           });
       })
@@ -63,10 +67,8 @@ function RoomList({ users }) {
   }, [rooms]);
 
   return (
-    <div className="roomListContainer">
-      <div className="roomListHeader">
-        <h3>Room List</h3>
-      </div>
+    <div className="d-flex card roomListContainer flex-column">
+      <h1 className="card-header bg-dark text-white d-flex join-header justify-content-center variant-dark">Room List</h1>
       <div className="roomListInnerContainer pl-5 pr-5">
         {rooms.length
           ? rooms.map((room) => (
