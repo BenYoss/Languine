@@ -1,4 +1,4 @@
-Languine
+Languine <img src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" height="30" width="30" />
 =========
 Languine is a messaging site that breaks the language barrier by translating messages at real time!
 
@@ -64,7 +64,7 @@ Installation
 
 Before proceeding into the installation guide, the repository MUST be forked, then cloned onto a local machine.
 
-|npm installation (node/linux)|
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/800px-Npm-logo.svg.png" alt="" height="20" width="55" /> installation (node/linux)
 
 Now assuming that the repository has already been cloned, proceeding into the cloned repo's directory
 issue the command below to install all app dependencies.
@@ -110,6 +110,8 @@ Variable | Description
   
   Once this command finishes its output, the webpack will create a ``bundle.js`` for the app to encode the data in the React files.
   
+  The app can then start locally. The Node server can start with the command ``npm start`` and the web-client by issuing ``npm run dev``.
+  
   Database
   =======
   
@@ -136,5 +138,36 @@ Variable | Description
   
   A great tutorial to follow for creating MongoDB Atlas clusters is here: https://medium.com/@bretcameron/mongodb-a-beginners-guide-8fca0c7787a4.
   
+  Bucket Creation
+  ======
   
+  The next step for configuration is to obtain the google cloud bucket keyFile.
   
+  Normally, when creating a google cloud app, a bucket will also be created along with the app itself, this can be accessable when searching for the keyword ``bucket`` in th e google cloud searchbar provided.
+ 
+  When proceeding into bucket configuration, a great article to follow can be found here: https://medium.com/@olamilekan001/image-upload-with-google-cloud-storage-and-node-js-a1cf9baa1876.
+
+  Deployment
+  =======
+  
+  Assuming the google cloud project is already created and configured accordingly, let's create an ``app.yaml`` for the app engine to operate:
+  
+  ```bash
+  touch app.yaml
+  ```
+  
+  Once the app.yaml is created, insert the following code below inside of the file scope:
+  
+  ```yaml
+runtime: nodejs
+env: flex
+
+manual_scaling:
+    instances: 1
+
+env_variables:
+ //Copy variables from .env here...
+ //remove the HOST env var, a HOST var is created automatically when deploying with google cloud
+```
+
+Languine, - <b>Translatable Message Board</b> (2020)
