@@ -52,7 +52,6 @@ authRouter.post('/roomauth', (req, res) => {
   console.log(req.body);
   Room.createPassword(req.body)
     .then(() => {
-      console.log('SUCCESS');
       res.status(201).end();
     })
     .catch(() => res.status(500).end());

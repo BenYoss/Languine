@@ -12,7 +12,7 @@
     background: #FFFFFF;
     border-radius: 8px;
     min-height: 400px;
-    width: 60%;
+    min-width: 300px;
   }
 
   .containermsg {
@@ -27,7 +27,7 @@
   .background {
       display: flex;
       background-color: #1A1A1D;
-      padding: 200px;
+      padding: 10%;
   }
 
   .form {

@@ -17,7 +17,7 @@ function Homepage({ user }) {
             <header className="bg-dark py-5 mb-5">
               <div className="container h-100">
                 <div className="row h-100 align-items-center">
-                  <div className="bg-secondary col-lg-12" style={{ opacity: '50%' }}>
+                  <div className="bg-secondary col-lg-12" style={{ opacity: '70%' }}>
                     <Fade in={indHead}>
                       <h1 className="display-4 text-white mt-5 mb-2">{`Welcome ${user.username}!`}</h1>
                     </Fade>
@@ -32,6 +32,23 @@ function Homepage({ user }) {
       ) : ''}
       <div style={{ opacity: '70%', backgroundImage: 'url(https://i.ytimg.com/vi/6aVOjLuw-Qg/maxresdefault.jpg)', minHeight: '500px' }}>
         <h1 className="bg-dark text-white display-1 absolute-bottom" style={{ opacity: '90%' }}>Welcome to Languine!</h1>
+        <div className="d-flex card bg-dark text-white absolute-bottom" style={{ opacity: '90%' }}>
+          <h3 className="d-inline card-header text-white">What is Languine?</h3>
+          <p className="mw-10 p-3 card-body">
+            Languine is a social networking site that allows for users to communicate
+            across the world though real-time translatable message boards. The primary
+            focus of Languine is to allow the users of the site to communicate with
+            eachother without having the need to know eachother&apos;s languages.
+            The users of Languine are granted the ability to create rooms of their own by
+            filling out the creation form, or they can join an existing room from the
+            room list available. If the user does not want other users to join their room
+            , there is also a privitization option that would prompt users with a password
+            before joining the room. Additionally, if the user wanted to understand the
+            contents within a PDF file that is written in a language they may not know,
+            Languine comes with a built-in PDF translator to allow for a better
+            understanding of the contents inside.
+          </p>
+        </div>
       </div>
     </div>
   );

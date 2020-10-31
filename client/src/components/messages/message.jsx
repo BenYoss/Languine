@@ -6,7 +6,7 @@ import { Nav } from 'react-bootstrap';
 import { deleteMessage } from '../../helpers/helpers';
 
 function Message({
-  message, name, host, reloader, account, d,
+  message, name, host, reloader, account,
 }) {
   let isSentByCurrentUser = false;
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
@@ -27,7 +27,7 @@ function Message({
       <div>
         <div>
           {host === account ? (
-            <p className="badge badge-primary sentText" style={{ marginLeft: '700px' }}>HOST</p>
+            <p className="badge badge-primary sentText" style={{ marginLeft: '90%' }}>HOST</p>
           ) : ''}
         </div>
         <div className="messageContainer justifyEnd">
@@ -76,30 +76,32 @@ function Message({
         </div>
       </div>
     ) : (
-      <div className="messageContainer justifyStart">
+      <div>
+
         <div>
           {host === idUser && account !== host ? (
-            <p className="badge badge-primary sentText">HOST</p>
+            <p className="badge badge-primary sentText" style={{ marginLeft: '10%' }}>HOST</p>
           ) : ''}
         </div>
-        <div className="d">
-          {host === account
-            ? (
-              <button
-                className="messageText colorWhite 2"
-                type="submit"
-                onClick={() => deleteMessage(_id)
-                  .then(() => { reloader(); }).catch((err) => console.error(err))}
-              >
-                x
-              </button>
-            ) : ''}
-        </div>
-        <Nav.Link href={`/user?id=${nameUser}`}>
-          <img src={thumbnailUser} alt="" width="70" height="70" />
-        </Nav.Link>
-        <div className="messageBox backgroundLight">
-          {
+        <div className="messageContainer justifyStart">
+          <div className="d">
+            {host === account
+              ? (
+                <button
+                  className="messageText colorWhite 2"
+                  type="submit"
+                  onClick={() => deleteMessage(_id)
+                    .then(() => { reloader(); }).catch((err) => console.error(err))}
+                >
+                  x
+                </button>
+              ) : ''}
+          </div>
+          <Nav.Link href={`/user?id=${nameUser}`}>
+            <img src={thumbnailUser} alt="" width="70" height="70" />
+          </Nav.Link>
+          <div className="messageBox backgroundLight">
+            {
               text.includes('https://') || text.includes('http://')
                 ? (
                   <div>
@@ -111,13 +113,12 @@ function Message({
                   </div>
                 )
             }
-          {
+            {
               text.includes('https://') || text.includes('http://')
                 ? imageTypes.map((type) => {
                   if (text.includes(type)) {
-                    console.log(host, 'I AM HOST!', d, 'I AM DDDDDD');
                     return [
-                      <img src={text} alt="" width="65%" height="90%" />,
+                      <img src={text} alt="" width="45%" height="70%" />,
                     ];
                   }
                   return undefined;
@@ -134,9 +135,10 @@ function Message({
                 })
                 : ''
             }
+          </div>
+          <p className="sentText pl-10">{nameUser}</p>
+          <p className="date sentText pl-10">{moment(timestamp).fromNow()}</p>
         </div>
-        <p className="sentText pl-10">{nameUser}</p>
-        <p className="date sentText pl-10">{moment(timestamp).fromNow()}</p>
       </div>
     )
   );
@@ -148,7 +150,6 @@ Message.propTypes = {
   host: PropTypes.string.isRequired,
   reloader: PropTypes.element.isRequired,
   account: PropTypes.string.isRequired,
-  d: PropTypes.string.isRequired,
 };
 
 export default Message;

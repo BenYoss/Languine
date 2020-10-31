@@ -37,7 +37,7 @@ function App() {
             <Homepage user={user} />
           </Route>
           <Route path="/discussion">
-            <Chat />
+            <Chat userType={user} />
           </Route>
           <Route path="/fileupload">
             <Bucket />
