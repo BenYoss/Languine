@@ -31,12 +31,9 @@ app.disable('x-powered-by');
 app.use(multerMid.single('fileUpload'));
 // Body parser V
 app.use(express.json());
-
 app.use(session({
   secret: 'some random secret',
-  cookie: {
-    maxAge: 60000 * 60 * 24, // one day max age
-  },
+  cookie: {},
   resave: true,
   saveUninitialized: false,
   name: 'google.oauth2',
