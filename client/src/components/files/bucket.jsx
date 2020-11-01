@@ -4,10 +4,15 @@ import { FilePond } from 'react-filepond';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import 'filepond/dist/filepond.min.css';
+import { Collapse } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+let warnCollapsed = true;
 
 function Bucket({ sendMessage }) {
   const [fileCollection, setFiles] = useState([]);
   const [isUploaded, setUploaded] = useState(false);
+  const [, setReload] = useState([]);
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
   const videoTypes = ['.mp4', '.mov', '.wmv', '.webm', '.ogg', '.mkv'];
 
@@ -44,6 +49,17 @@ function Bucket({ sendMessage }) {
       <form onSubmit={onSubmit}>
         <Route path="/fileupload">
           <h1 className="card-header bg-dark text-white d-flex join-header justify-content-center variant-dark">Upload PDF</h1>
+          <Collapse in={warnCollapsed}>
+            <div className="alert alert-danger">
+              <button type="button" className="alert-danger" onClick={() => { warnCollapsed = false; setReload([]); }}>x</button>
+              <h3>Warning!</h3>
+              <h4>
+                the PDF upload feature requires the CORS
+                chrome extension to display translated PDFS.
+              </h4>
+              <a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en">Link to CORS extension</a>
+            </div>
+          </Collapse>
         </Route>
         <div className="form-group">
           <button className="btn btn-primary" type="submit">Upload</button>
