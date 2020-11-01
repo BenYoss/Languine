@@ -46,13 +46,11 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 io.on('connection', (socket) => {
-  console.log('A new connection has been made!');
-
+  console.log('A new connection has been made!', socket.id);
   socket.on('join', ({
     name, room, desc, pub,
   }) => {
     User.findUsers({ id_google: name })
-
       .then((userData) => {
         const userDex = userData[0];
         Room.addRoom(room, desc || 'default text, add more here', pub, userData[0].id_google)
@@ -91,17 +89,19 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     const user = userInfo[socket.id];
-    Room.getRooms({ _id: user.id_room })
-      .then((dataRoom) => {
-        Message.addMessage('admin', user.id_room, `${user.username} has disconnected!`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
-          .then(() => {
-            socket.join(dataRoom[0].name);
-            User.updateUserRoom(user.id_google, 'null')
-              .then()
-              .catch((err) => console.error(err));
-          });
-      })
-      .catch((err) => console.error(err));
+    if (user) {
+      Room.getRooms({ _id: user.id_room })
+        .then((dataRoom) => {
+          Message.addMessage('admin', user.id_room, `${user.username} has disconnected!`, 'admin', 'https://www.vippng.com/png/detail/214-2149231_hard-hat-blue-icon-habitat-for-humanity-icons.png')
+            .then(() => {
+              socket.join(dataRoom[0].name);
+              User.updateUserRoom(user.id_google, 'null')
+                .then()
+                .catch((err) => console.error(err));
+            });
+        })
+        .catch((err) => console.error(err));
+    }
   });
 });
 
