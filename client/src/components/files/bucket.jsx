@@ -7,6 +7,7 @@ import 'filepond/dist/filepond.min.css';
 
 function Bucket({ sendMessage }) {
   const [fileCollection, setFiles] = useState([]);
+  const [isUploaded, setUploaded] = useState(false);
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
   const videoTypes = ['.mp4', '.mov', '.wmv', '.webm', '.ogg', '.mkv'];
 
@@ -32,6 +33,9 @@ function Bucket({ sendMessage }) {
           sendMessage(res.data);
         }
       });
+      if (res.data.includes('.pdf')) {
+        setUploaded(true);
+      }
     }).catch((err) => console.error(err));
   };
 
@@ -51,6 +55,11 @@ function Bucket({ sendMessage }) {
             instantUpload={false}
             onupdatefiles={(fileItems) => onFileChange(fileItems)}
           />
+          {
+            isUploaded ? (
+              <h3>File has been uploaded!</h3>
+            ) : ''
+          }
         </div>
       </form>
     </div>
