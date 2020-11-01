@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RoomAuth({ room, userId, user }) {
   const [pass, setPass] = useState('');
+  const [invalid, setInvalid] = useState(true);
 
   const comparePass = (password) => {
     console.log(password);
@@ -12,17 +13,34 @@ function RoomAuth({ room, userId, user }) {
       .then((bool) => {
         if (bool) {
           window.location.href = `/discussion?name=${userId}&room=${room}&user=${user}`;
+        } else {
+          setInvalid(false);
         }
+        return '';
       })
       .catch((err) => console.error(err));
   };
 
   return (
     <div>
-      <input placeholder="Password" className="Room-Input" type="password" onChange={(ev) => setPass(ev.target.value)} />
-      {pass.length ? (
-        <button type="submit" onClick={() => { comparePass(pass); }}>Submit</button>
-      ) : ''}
+      {
+        invalid ? (
+          <div>
+            <input placeholder="Password" className="Room-Input" type="password" onChange={(ev) => setPass(ev.target.value)} />
+            {pass.length ? (
+              <button type="submit" onClick={() => { comparePass(pass); }}>Submit</button>
+            ) : ''}
+          </div>
+        ) : (
+          <div>
+            <input placeholder="Password" className="Room-Input border-danger" type="password" onChange={(ev) => setPass(ev.target.value)} />
+            {pass.length ? (
+              <button type="submit" onClick={() => { comparePass(pass); }}>Submit</button>
+            ) : ''}
+            <h4>Invalid Password!</h4>
+          </div>
+        )
+      }
     </div>
   );
 }
