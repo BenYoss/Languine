@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
+import crypto from 'crypto-js';
 import { Collapse, Button } from 'react-bootstrap';
 import { getAccount, addPassword, hash } from '../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -45,13 +46,11 @@ function Join() {
               type="submit"
               onClick={() => {
                 if (pass) {
-                  console.log('password');
-                  addPassword(hash(pass), room).then((data) => {
-                    console.log(data);
-                    setTimeout(() => { window.location.href = `/discussion?name=${user.id_google}&room=${room}&user=${user.username}&desc=${desc}&pub=${pub}`; }, 1000);
+                  addPassword(hash(pass), room).then(() => {
+                    setTimeout(() => { window.location.href = `/discussion?name=${user.id_google}&room=${crypto.enc.Base64.parse(crypto.AES.encrypt(room, 'room').toString()).toString(crypto.enc.Hex)}&user=${user.username}&desc=${desc}&pub=${pub}`; }, 1000);
                   });
                 } else {
-                  window.location.href = `/discussion?name=${user.id_google}&room=${room}&user=${user.username}&desc=${desc}&pub=${pub}`;
+                  window.location.href = `/discussion?name=${user.id_google}&room=${crypto.enc.Base64.parse(crypto.AES.encrypt(room, 'room').toString()).toString(crypto.enc.Hex)}&user=${user.username}&desc=${desc}&pub=${pub}`;
                 }
               }}
             >

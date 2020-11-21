@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import query from 'query-string';
 import io from 'socket.io-client';
+import crypto from 'crypto-js';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { Button, Collapse } from 'react-bootstrap';
 import InfoBar from './infoBar';
@@ -30,12 +31,18 @@ function Chat() {
       name, room, user, desc, pub,
     } = query.parse(window.location.search);
 
+    console.log([room]);
+    const decryptRoom = crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8);
+    if (!decryptRoom.length) {
+      window.location.href = '/404';
+    }
+    console.log(decryptRoom);
     socket = io(process.env.SOCKET_HOST);
-    setRoom(room);
+    setRoom(decryptRoom);
     setNameUser(user);
     setUserId(name);
     socket.emit('join', {
-      name, room, desc, pub,
+      name, room: decryptRoom, desc, pub,
     }, () => {
     });
 
@@ -51,7 +58,7 @@ function Chat() {
       room,
     } = query.parse(window.location.search);
 
-    getRoom(room)
+    getRoom(crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8))
       .then((roomData) => {
         const { _id } = roomData[0];
         setHost(roomData[0].id_host);

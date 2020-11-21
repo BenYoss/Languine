@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import crypto from 'crypto-js';
 import {
   Nav, Collapse, Modal, Button,
 } from 'react-bootstrap';
@@ -155,7 +156,7 @@ function RoomList({ users }) {
                             </div>
                           ) : (
                             <div className="roomDesc d-flex justify-content-center">
-                              <Nav.Link style={{ color: 'black' }} href={`/discussion?name=${user.id_google}&room=${room.name}&user=${user.username}`}>
+                              <Nav.Link style={{ color: 'black' }} href={`/discussion?name=${user.id_google}&room=${crypto.enc.Base64.parse(crypto.AES.encrypt(room.name, 'room').toString()).toString(crypto.enc.Hex)}&user=${user.username}`}>
                                 <Button><h3 className="roomDesc d-flex justify-content-center">Join Room</h3></Button>
                               </Nav.Link>
                             </div>
