@@ -33,7 +33,7 @@ const addRoom = (name, description, isPublic, host) => {
   });
   return Room.findOne({ name: room.name })
     .then((match) => {
-      if (!match) {
+      if (!match && room.name.length) {
         return room.save();
       }
       return match;
