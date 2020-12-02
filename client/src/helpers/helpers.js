@@ -128,3 +128,27 @@ export const deleteFile = (file) => new Promise((res, rej) => {
     })
     .catch((err) => rej(err));
 });
+
+export const pardonUser = (idUser, idRoom) => new Promise((res, rej) => {
+  axios.delete('/banned', { params: { useId: idUser, roomId: idRoom } })
+    .then((fileData) => {
+      res(fileData);
+    })
+    .catch((err) => rej(err));
+});
+
+export const banUser = (idUser, idRoom) => new Promise((res, rej) => {
+  axios.post('/banned', { userId: idUser, roomId: idRoom })
+    .then((fileData) => {
+      res(fileData);
+    })
+    .catch((err) => rej(err));
+});
+
+export const getBannedUsers = (idRoom) => new Promise((res, rej) => {
+  axios.get('/banned', { params: { roomId: idRoom } })
+    .then(({ data }) => {
+      res(data);
+    })
+    .catch((err) => rej(err));
+});
