@@ -1,5 +1,7 @@
 const express = require('express');
-const { User, Room, Message } = require('../database/models/models');
+const {
+  User, Room, Message, Ban,
+} = require('../database/models/models');
 
 const dbrouter = express.Router();
 
@@ -78,6 +80,45 @@ dbrouter.delete('/messages', (req, res) => {
 
 dbrouter.get('/files', (req, res) => {
   res.status(200).send('this is the getter for files');
+});
+
+dbrouter.get('/banned', (req, res) => {
+  const { roomId } = req.query;
+
+  Ban.getBannedUsers(roomId)
+    .then((bannedUsers) => {
+      res.status(200).send(bannedUsers);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+dbrouter.post('/banned', (req, res) => {
+  const { userId, roomId } = req.body;
+
+  Ban.banUser(userId, roomId)
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+dbrouter.delete('/banned', (req, res) => {
+  const { userId, roomId } = req.query;
+
+  Ban.pardonUser(userId, roomId)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = {

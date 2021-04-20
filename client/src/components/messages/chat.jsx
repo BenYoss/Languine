@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import query from 'query-string';
 import io from 'socket.io-client';
+import crypto from 'crypto-js';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { Button, Collapse } from 'react-bootstrap';
 import InfoBar from './infoBar';
@@ -8,12 +9,13 @@ import Message from './message';
 import Bucket from '../files/bucket';
 import '../../styles/chat.css';
 import {
-  getMessages, getRoom, getAccount,
+  getMessages, getRoom, getAccount, getBannedUsers,
 } from '../../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 let socket;
 const toggles = { text: true, upload: false };
+const bannedUsers = {};
 
 function Chat() {
   const [nameuser, setNameUser] = useState('');
@@ -30,12 +32,21 @@ function Chat() {
       name, room, user, desc, pub,
     } = query.parse(window.location.search);
 
+    const decryptRoom = crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8);
+    if (!decryptRoom.length) {
+      window.location.href = '/404';
+    }
+    console.log(user, bannedUsers);
+    if (user === bannedUsers[user]) {
+      window.location.href = '/roomlist?banned=true';
+    }
+    console.log(decryptRoom);
     socket = io(process.env.SOCKET_HOST);
-    setRoom(room);
+    setRoom(decryptRoom);
     setNameUser(user);
     setUserId(name);
     socket.emit('join', {
-      name, room, desc, pub,
+      name, room: decryptRoom, desc, pub,
     }, () => {
     });
 
@@ -48,10 +59,10 @@ function Chat() {
 
   const reloader = () => {
     const {
-      room,
+      room, name,
     } = query.parse(window.location.search);
 
-    getRoom(room)
+    getRoom(crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8))
       .then((roomData) => {
         const { _id } = roomData[0];
         setHost(roomData[0].id_host);
@@ -59,7 +70,16 @@ function Chat() {
           .then((messageBlock) => {
             const storage = messageBlock;
             setMessages(storage);
-            setReload([]);
+            getBannedUsers(_id)
+              .then((userData) => {
+                userData.forEach((use) => {
+                  if (use.id_user === name) {
+                    bannedUsers[name] = true;
+                    console.log('banned', name, userData);
+                    setReload([]);
+                  }
+                });
+              }).catch((err) => console.error(err));
           });
       })
       .catch((err) => console.error(err));
@@ -120,6 +140,7 @@ function Chat() {
                   account={account}
                   reload={reload}
                   d={userId}
+                  bannedUsers={bannedUsers}
                 />
               </div>
             ))}

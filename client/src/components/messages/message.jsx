@@ -1,12 +1,15 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import '../../styles/message.css';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Nav } from 'react-bootstrap';
-import { deleteMessage } from '../../helpers/helpers';
+import {
+  deleteMessage, banUser, getBannedUsers, pardonUser,
+} from '../../helpers/helpers';
 
 function Message({
-  message, name, host, reloader, account,
+  message, name, host, reloader, account, bannedUsers,
 }) {
   let isSentByCurrentUser = false;
   const imageTypes = ['.gif', '.png', '.jpg', '.tiff', '.eps'];
@@ -14,6 +17,28 @@ function Message({
   const nameUser = message.name_user;
   const thumbnailUser = message.thumbnail_user;
   const idUser = message.id_user;
+  const idRoom = message.id_room;
+
+  const isBanned = () => {
+    getBannedUsers(idRoom)
+      .then((userData) => {
+        userData.forEach((user) => {
+          if (user.id_user === idUser) {
+            bannedUsers[idUser] = true;
+            console.log('banned', idUser, userData);
+            reloader();
+          }
+        });
+      }).catch((err) => console.error(err));
+  };
+
+  const isPardoned = () => {
+    pardonUser(idUser, idRoom)
+      .then(() => {
+        bannedUsers[idUser] = false;
+        reloader();
+      });
+  };
   const {
     text, _id, timestamp,
   } = message;
@@ -87,14 +112,39 @@ function Message({
           <div className="d">
             {host === account
               ? (
-                <button
-                  className="messageText colorWhite 2"
-                  type="submit"
-                  onClick={() => deleteMessage(_id)
-                    .then(() => { reloader(); }).catch((err) => console.error(err))}
-                >
-                  x
-                </button>
+                <div>
+                  <button
+                    className="messageText 2"
+                    type="submit"
+                    onClick={() => deleteMessage(_id)
+                      .then(() => { reloader(); }).catch((err) => console.error(err))}
+                  >
+                    x
+                  </button>
+                  {
+                    !bannedUsers[idUser] ? (
+                      <button
+                        className="messageText 2"
+                        type="submit"
+                        onClick={() => banUser(idUser, idRoom).then(
+                          () => {
+                            isBanned();
+                          },
+                        ).catch((err) => console.error(err))}
+                      >
+                        ban user
+                      </button>
+                    ) : (
+                      <button
+                        className="messageText 2"
+                        type="submit"
+                        onClick={() => { isPardoned(); }}
+                      >
+                        pardon user
+                      </button>
+                    )
+                  }
+                </div>
               ) : ''}
           </div>
           <Nav.Link href={`/user?id=${nameUser}`}>
@@ -150,6 +200,7 @@ Message.propTypes = {
   host: PropTypes.string.isRequired,
   reloader: PropTypes.element.isRequired,
   account: PropTypes.string.isRequired,
+  bannedUsers: PropTypes.element.isRequired,
 };
 
 export default Message;

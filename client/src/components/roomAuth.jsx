@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import crypto from 'crypto-js';
 import { getPassword } from '../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -12,7 +13,7 @@ function RoomAuth({ room, userId, user }) {
     getPassword(room, password)
       .then((bool) => {
         if (bool) {
-          window.location.href = `/discussion?name=${userId}&room=${room}&user=${user}`;
+          window.location.href = `/discussion?name=${userId}&room=${crypto.enc.Base64.parse(crypto.AES.encrypt(room, 'room').toString()).toString(crypto.enc.Hex)}&user=${user}`;
         } else {
           setInvalid(false);
         }
