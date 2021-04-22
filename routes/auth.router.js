@@ -4,7 +4,7 @@ const { Room } = require('../database/models/models');
 require('../auth/googleStrategy');
 
 const authRouter = express.Router();
-
+// authentication for Google Oauth via profile validation
 authRouter.get('/auth/google',
   passport.authenticate('google', {
     scope:
@@ -30,16 +30,21 @@ authRouter.get('/login', (req, res) => {
   res.redirect('/auth/google');
 });
 
+// redirect to the login page if user logs out
 authRouter.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 });
 
+// responds with user information if route is hit
 authRouter.get('/session', (req, res) => {
-  console.log(req.user, req.session, 'test');
   res.send(req.user);
 });
 
+/**
+ *  authenticates a private room if password credentials match with original from the database.
+ *  @func getPassword retrieves password based on specific room id.
+ */
 authRouter.get('/roomauth', (req, res) => {
   Room.getPassword(req.query)
     .then((password) => {
@@ -48,8 +53,11 @@ authRouter.get('/roomauth', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+/**
+ *  creates a new password for a private room.
+ *  @func createPassword records password data as a record in database.
+ */
 authRouter.post('/roomauth', (req, res) => {
-  console.log(req.body);
   Room.createPassword(req.body)
     .then(() => {
       res.status(201).end();
@@ -57,6 +65,8 @@ authRouter.post('/roomauth', (req, res) => {
     .catch(() => res.status(500).end());
   res.end();
 });
+
+// Export router for rendering to server.
 
 module.exports = {
   authRouter,

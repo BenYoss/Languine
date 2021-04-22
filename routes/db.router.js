@@ -3,8 +3,13 @@ const {
   User, Room, Message, Ban,
 } = require('../database/models/models');
 
+// dbrouter acts as a new router instance.
 const dbrouter = express.Router();
 
+/**
+ * GET users from the database based on field search critera
+ * @func findUsers
+ */
 dbrouter.get('/users', (req, res) => {
   User.findUsers(req.query)
     .then((result) => {

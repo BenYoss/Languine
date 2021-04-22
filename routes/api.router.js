@@ -71,7 +71,7 @@ apiRouter.delete('/bucket', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
-// Export method for rendering to server.
+// Export router for rendering to server.
 
 module.exports = {
   apiRouter,
