@@ -25,7 +25,7 @@ function Profile({ user }) {
     <div className="container">
       <div className="col-lg-13">
         <div className="card hovercard">
-          <div className="cardheader" style={{ imageBG: bgImage }} />
+          <div className="cardheader" style={{ backgroundImage: bgImage }} />
           <div className="avatar">
             <img alt="" src={user.thumbnail} />
           </div>
@@ -40,7 +40,7 @@ function Profile({ user }) {
             </p>
           </div>
           <div className="bottom">
-            <h3 className="text-white btn-secondary">My Translated PDF&apos;s</h3>
+            {files.length && <h3 className="text-white btn-secondary">My Translated PDF&apos;s</h3>}
           </div>
           <div className="file-list-map d-flex align-items-center flex-column">
             {files.length ? (
