@@ -1,3 +1,6 @@
+h4 {
+    font-size: 2vw;
+}
 .NavbarContainer {
     flex: 0.5;
     display: flex;
