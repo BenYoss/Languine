@@ -89,6 +89,7 @@ function NavBar({ user }) {
                 <div className="transition">
                   <motion.h4
                     animate
+                    className="redirect-text"
                     whileHover={{ color: 'black', scale: 1.1 }}
                   >
                     Profile
@@ -96,10 +97,11 @@ function NavBar({ user }) {
                 </div>
               </Nav.Link>
 
-              <Nav.Link className="" href="/logout" style={{ marginLeft: '100px' }}>
+              <Nav.Link className="" href="/logout">
                 <div className="transition">
                   <motion.h4
                     animate
+                    className="redirect-text"
                     whileHover={{ color: 'black', scale: 1.1 }}
                   >
                     Logout

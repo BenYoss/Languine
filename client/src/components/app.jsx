@@ -31,8 +31,8 @@ function App() {
 
   return (
     <div>
-      <NavBar className="navbar" user={user} />
-      <div style={{ paddingTop: '50px' }}>
+      <NavBar user={user} />
+      <div className="app-container" style={{ paddingTop: '50px' }}>
         <Router>
           <Route exact path="/">
             <Homepage user={user} />
