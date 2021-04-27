@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "filepond": "^4.21.0",
+    "framer-motion": "^4.1.10",
     "moment": "^2.29.1",
     "mongoose": "^5.10.6",
     "multer": "^1.4.2",

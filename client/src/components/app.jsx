@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { getAccount, getUsers } from '../helpers/helpers';
+import '../styles/app.css';
 import Chat from './messages/chat';
 import Homepage from './homepage';
 import Footer from './footer';
@@ -31,7 +32,7 @@ function App() {
   return (
     <div>
       <NavBar user={user} />
-      <div style={{ paddingTop: '50px' }}>
+      <div className="app-container" style={{ paddingTop: '50px' }}>
         <Router>
           <Route exact path="/">
             <Homepage user={user} />
