@@ -1,5 +1,6 @@
 import React from 'react';
 import { Nav, Navbar, Button } from 'react-bootstrap';
+import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/navBar.css';
@@ -15,28 +16,81 @@ function NavBar({ user }) {
                 ? (
                   <Nav className="m-auto justify-content-start">
                     <Nav.Link href="/fileupload" placement="left" variant="dark">
-                      <h4>Translate Files</h4>
+                      <div className="transition">
+                        <motion.h4
+                          animate
+                          style={{ color: 'white' }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.8 }}
+                        >
+                          <h4>Translate Files</h4>
+                        </motion.h4>
+                      </div>
                     </Nav.Link>
                     <Nav.Link href="/join" placement="left" variant="dark">
-                      <h4>Create a Room</h4>
+                      <div className="transition">
+                        <motion.h4
+                          animate
+                          style={{ color: 'white' }}
+                          whileHover={{ color: 'black', scale: 1.1 }}
+                          whileTap={{ scale: 0.8 }}
+                        >
+                          <h4>Create a Room</h4>
+                        </motion.h4>
+                      </div>
                     </Nav.Link>
                     <Nav.Link href="/roomlist" placement="left" variant="dark">
-                      <h4>Find Rooms</h4>
+                      <div className="transition">
+                        <motion.h4
+                          animate
+                          style={{ color: 'white' }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.8 }}
+                        >
+                          <h4>Find Rooms</h4>
+                        </motion.h4>
+                      </div>
                     </Nav.Link>
-                    <Nav.Link href={`/profile?id=${user.id_google}`} placement="left" variant="dark">
-                      <h4>Profile</h4>
-                    </Nav.Link>
-                    <h4 className="justify-content-end">
+                    {/* <Nav.Link href={`/profile?id=${user.id_google}`} placement="left" variant="dark">
+                      <div className="transition">
+                        <motion.h4
+                          animate
+                          style={{ color: 'white' }}
+                          whileHover={{ color: 'black', scale: 1.1 }}
+                        >
+                          Profile
+                        </motion.h4>
+                      </div>
+                    </Nav.Link> */}
+
+                    {/* <Nav.Link className="justify-content-end" href="/logout" style={{ marginLeft: '100px' }}>
+                      <div className="transition">
+                        <motion.h4
+                          animate
+                          style={{ color: 'white' }}
+                          whileHover={{ color: 'black', scale: 1.1 }}
+                        >
+                          Logout
+                        </motion.h4>
+                      </div>
+                    </Nav.Link> */}
+                    <h4 className="profile-thumb">
                       <img className="thumbnail rounded-circle" width="60" height="60" src={user.thumbnail} alt="" />
                     </h4>
-                    <Nav.Link className="justify-content-end" href="/logout" style={{ marginLeft: '100px' }}>
-                      <h4>Logout</h4>
-                    </Nav.Link>
                   </Nav>
                 )
                 : (
                   <Nav.Link className="justify-content-end" href="/login" style={{ marginLeft: '100px' }}>
-                    <h4>Login</h4>
+                    <div className="transition">
+                      <motion.h4
+                        animate
+                        style={{ color: 'white' }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.8 }}
+                      >
+                        Login
+                      </motion.h4>
+                    </div>
                   </Nav.Link>
                 )
         }
