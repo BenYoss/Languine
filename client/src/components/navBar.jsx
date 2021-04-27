@@ -6,7 +6,7 @@ import '../styles/navBar.css';
 
 function NavBar({ user }) {
   return (
-    <Navbar bg="dark" variant="dark" sticky="top">
+    <Navbar sticky="top" className="navbar-container">
       <Nav.Link href="/"><img width="60" height="60" src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" /></Nav.Link>
       <Button id="google_translate_element" className="d-flex bg-light p-1" />
       <Nav className="m-auto align-items-start">
