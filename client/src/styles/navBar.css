@@ -9,6 +9,7 @@ h4 {
     max-height: 65px;
     padding-bottom: 5px;
     align-items: center;
+    overflow: hidden;
 }
 .transition {
     width: 140px;
@@ -20,16 +21,29 @@ h4 {
     transition: background-position 1s;
 }
 .profile-thumb {
+    width: 80px;
+    opacity: 100;
     margin-left: 30px;
+}
+.profile-card {
+    background-color: white;
+    position: absolute;
+    right: 0;
+}
+.profile-card-elements {
+    display: flex;
+    flex-direction: column;
 }
 .transition:hover {
     background-position: 0 -100%;
     color: white;
 }
-h4 {
+.redirect-text {
     font-size: medium;
+    font-weight: normal;
     text-align: center;
     padding: 4px;
+    color: white;
 }
 .btn {
     display: flex;
