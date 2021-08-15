@@ -12,7 +12,6 @@ const banUser = (userId, roomId) => {
   const ban = new Ban({ id_room: roomId, id_user: userId });
   return Ban.find({ id_room: roomId, id_user: userId })
     .then((result) => {
-      console.log(result);
       if (!result.length) {
         return ban.save();
       }

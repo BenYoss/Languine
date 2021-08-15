@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Fade, Collapse } from 'react-bootstrap';
+import '../styles/homepage.css';
 
 let indHead = false;
 let indCont = false;

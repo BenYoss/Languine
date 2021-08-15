@@ -20,10 +20,15 @@ function App() {
   useEffect(() => {
     getAccount()
       .then((userInfo) => {
-        setUser(userInfo);
+        console.log(userInfo);
         window.language = userInfo.language;
         getUsers()
           .then((userList) => {
+            userList.forEach((u) => {
+              if (userInfo.id === u.id_google) {
+                setUser(u);
+              }
+            });
             setUsers(userList);
           });
       });

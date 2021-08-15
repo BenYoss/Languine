@@ -27,12 +27,15 @@ passport.use(new GoogleStrategy({
 },
 (req, accessToken, refreshToken, profile, done) => {
   // variable for notation convenience
+  // used to retrieve different formats
   const notation = '_json';
   // destructuring properties in profile
   const {
     name, sub, picture, locale,
   } = profile[notation];
   // Profile data then gets saved into database
+
+  // "Fillme" is a prefix for description
   userModel.addUser(name, picture, 'fill me', sub, locale)
     .then(() => {
       console.log(`${name}has been added!`);
