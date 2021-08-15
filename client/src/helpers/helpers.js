@@ -1,18 +1,15 @@
 import axios from 'axios';
 import crypto from 'crypto-js';
+import '../../../auth/fingerPrint';
 
 // GetAccount is a function that returns a promise instance which will contain the information
 // pertaining to the current user session.
-export const getAccount = () => new Promise((res, rej) => {
-  axios.get('/session')
-    .then((session) => {
-      axios.get('/users', { params: { id_google: `${session.data.id}` } })
-        .then((userData) => {
-          res(userData.data[0]);
-        })
-        .catch((err) => rej(err));
-    });
-});
+
+export const getAccount = async () => {
+  const { data: session } = await axios.get('/session');
+  console.log(session);
+  return session;
+};
 
 export const getRoom = (roomname) => new Promise((res, rej) => {
   axios.get('/rooms', { params: { name: roomname } })
