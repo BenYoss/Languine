@@ -13,7 +13,6 @@ const uploadFile = (file) => new Promise((res, rej) => {
   });
   blobStream.on('finish', async () => {
     const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-    console.log('test');
     await res(publicUrl);
   })
     .on('error', (err) => {
