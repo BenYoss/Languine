@@ -1,5 +1,6 @@
 const express = require('express');
-const pdf = require('pdfjs-dist/es5/build/pdf');
+const pdfjs = require('pdfjs-dist/build/pdf');
+const pdfjsworker = require('pdfjs-dist/build/pdf.worker.entry');
 const { File } = require('../database/models/models');
 const { uploadFile } = require('../config/Gcloud_Storage');
 
@@ -9,7 +10,7 @@ const apiRouter = express.Router();
  *      defines the type of worker build for PDFjs.
  *  _________________________________________________
  */
-pdf.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/build/pdf.worker';
+pdfjs.GlobalWorkerOptions.workerSrc = pdfjsworker;
 
 /**
  * @func GET request for uploads:
