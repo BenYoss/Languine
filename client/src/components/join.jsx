@@ -1,24 +1,16 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import propTypes from 'prop-types';
 import crypto from 'crypto-js';
 import { Collapse, Button } from 'react-bootstrap';
-import { getAccount, addPassword, hash } from '../helpers/helpers';
+import { addPassword, hash } from '../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Join() {
-  const [user, setUser] = useState('');
+function Join({ user }) {
   const [room, setRoom] = useState('');
   const [pass, setPass] = useState('');
   const [desc, setDesc] = useState('');
   const [pub, setPub] = useState(true);
-
-  useEffect(() => {
-    getAccount()
-      .then((userInfo) => {
-        setUser(userInfo);
-      })
-      .catch((err) => console.error(err));
-  }, []);
 
   return (
     <div className="card join-outer-container col-lg-13 pb-30" style={{ marginLeft: '100px' }}>
@@ -30,7 +22,7 @@ function Join() {
           <label>Room Description:</label>
           <textarea placeholder="Description" className="Desc-Input form-control at-20" type="text" onChange={(ev) => setDesc(ev.target.value)} />
           <h4>Set public?</h4>
-          <Button type="Button" onClick={() => setPub(!pub)}>{`${pub}`}</Button>
+          <Button className="btn-dark" type="Button" onClick={() => setPub(!pub)}>{`${pub}`}</Button>
           <div>
             <div>
               <Collapse className="pt-3 pb-4 col-lg-8" in={!pub}>
@@ -44,6 +36,7 @@ function Join() {
           <div className="d-flex join-header justify-content-center variant-dark">
             <Button
               type="submit"
+              className="btn-dark"
               onClick={() => {
                 if (pass) {
                   addPassword(hash(pass), room).then(() => {
@@ -62,5 +55,9 @@ function Join() {
     </div>
   );
 }
+
+Join.propTypes = {
+  user: propTypes.func.isRequired,
+};
 
 export default Join;
