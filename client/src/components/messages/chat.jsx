@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import query from 'query-string';
 import io from 'socket.io-client';
+import PropTypes from 'prop-types';
 import crypto from 'crypto-js';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { Button, Collapse } from 'react-bootstrap';
@@ -9,7 +10,7 @@ import Message from './message';
 import Bucket from '../files/bucket';
 import '../../styles/chat.css';
 import {
-  getMessages, getRoom, getAccount, getBannedUsers,
+  getMessages, getRoom, getBannedUsers,
 } from '../../helpers/helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,7 +18,7 @@ let socket;
 const toggles = { text: true, upload: false };
 const bannedUsers = {};
 
-function Chat() {
+function Chat({ userType }) {
   const [nameuser, setNameUser] = useState('');
   const [roomType, setRoom] = useState('');
   const [message, setMessage] = useState('');
@@ -65,6 +66,7 @@ function Chat() {
     getRoom(crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8))
       .then((roomData) => {
         const { _id } = roomData[0];
+        console.log(roomData, 'this is data');
         setHost(roomData[0].id_host);
         getMessages(_id)
           .then((messageBlock) => {
@@ -85,12 +87,8 @@ function Chat() {
       .catch((err) => console.error(err));
   };
   useEffect(() => {
-    getAccount()
-      .then((userData) => {
-        setAccount(userData.id_google);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    setAccount(userType.id_google);
+  }, [userType]);
   useEffect(() => {
     socket.on('message', () => {
       reloader();
@@ -173,5 +171,9 @@ function Chat() {
     </div>
   );
 }
+
+Chat.propTypes = {
+  userType: PropTypes.string.isRequired,
+};
 
 export default Chat;
