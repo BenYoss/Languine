@@ -34,7 +34,7 @@ function UserProfiles() {
                 <div className="desc">{user[0].description}</div>
               </div>
               <div className="bottom">
-                <div className="btn btn-primary btn-twitter btn-sm">
+                <div className="btn btn-dark btn-twitter btn-sm">
                   <p>
                     <img src="https://www.flaticon.com/svg/static/icons/svg/61/61027.svg" width="20" height="20" alt="" />
                     {`  ${user[0].language}`}
