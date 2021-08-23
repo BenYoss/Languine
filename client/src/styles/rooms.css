@@ -30,7 +30,7 @@
 .btn {
     display: flex;
     justify-content: flex-start;
-    background: darkslategrey;
+    background: #FF7751;
     color: white;
     max-height: 60px;
     align-items: center;

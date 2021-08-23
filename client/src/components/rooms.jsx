@@ -15,9 +15,8 @@ const opener = {};
 const roomOpener = {};
 const authOpener = {};
 
-function RoomList({ users }) {
+function RoomList({ users, user }) {
   const [rooms, setRooms] = useState([]);
-  const [user, setUser] = useState('');
   const [usersIds, setUsersIds] = useState([]);
   const [usersNames, setUsersNames] = useState([]);
   const [, setReload] = useState([]);
@@ -31,7 +30,6 @@ function RoomList({ users }) {
             if (!userInfo) {
               window.location.href = '/404';
             }
-            setUser(userInfo);
           });
       })
       .catch((err) => console.error(err));
@@ -134,7 +132,7 @@ function RoomList({ users }) {
                           {!room.is_public ? (
                             <div className="roomDesc">
                               <div className="roomDesc d-flex justify-content-center">
-                                <Button onClick={() => { authOpener[`${_id}`] = !authOpener[`${_id}`]; setReload([]); }}>
+                                <Button className="btn-dark" onClick={() => { authOpener[`${_id}`] = !authOpener[`${_id}`]; setReload([]); }}>
                                   <h3 className="roomDesc d-flex justify-content-center">Join Room</h3>
                                 </Button>
                               </div>
@@ -157,7 +155,7 @@ function RoomList({ users }) {
                           ) : (
                             <div className="roomDesc d-flex justify-content-center">
                               <Nav.Link style={{ color: 'black' }} href={`/discussion?name=${user.id_google}&room=${crypto.enc.Base64.parse(crypto.AES.encrypt(room.name, 'room').toString()).toString(crypto.enc.Hex)}&user=${user.username}`}>
-                                <Button><h3 className="roomDesc d-flex justify-content-center">Join Room</h3></Button>
+                                <Button className="btn-dark"><h3 className="roomDesc d-flex justify-content-center">Join Room</h3></Button>
                               </Nav.Link>
                             </div>
                           )}
@@ -181,6 +179,7 @@ function RoomList({ users }) {
 
 RoomList.propTypes = {
   users: PropTypes.element.isRequired,
+  user: PropTypes.element.isRequired,
 };
 
 export default RoomList;
