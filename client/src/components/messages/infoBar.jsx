@@ -19,16 +19,18 @@ function InfoBar({
     <div className="infoBar">
       <div className="leftInnerContainer">
         <img className="onlineIcon" src={imageIcon} alt="" />
-        <h3>
-          {room}
-          :
-          {name}
-        </h3>
+        <div className="chat-display-heading">
+          <h3>
+            {room}
+            :
+            {name}
+          </h3>
+        </div>
       </div>
       <div>
         {host === account ? (
           <Button
-            className="messageText colorWhite"
+            className="btn-dark messageText colorWhite"
             type="submit"
             onClick={
             () => {
