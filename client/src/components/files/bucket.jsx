@@ -62,7 +62,7 @@ function Bucket({ sendMessage }) {
           </Collapse>
         </Route>
         <div className="form-group">
-          <button className="btn btn-primary" type="submit">Upload</button>
+          <button className="btn btn-dark" type="submit">Upload</button>
         </div>
         <div className="filepond-wrapper form-group">
           <FilePond
