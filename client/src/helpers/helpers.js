@@ -7,7 +7,6 @@ import '../../../auth/fingerPrint';
 
 export const getAccount = async () => {
   const { data: session } = await axios.get('/session');
-  console.log(session);
   return session;
 };
 
