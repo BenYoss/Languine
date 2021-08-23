@@ -49,11 +49,11 @@ function App() {
             <Bucket />
           </Route>
           <Route path="/join">
-            <Join />
+            <Join user={user} />
           </Route>
           <Route path="/roomlist">
             {users.length ? (
-              <RoomList users={users} />
+              <RoomList users={users} user={user} />
             ) : ''}
           </Route>
           <Route path="/file">
