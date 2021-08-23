@@ -12,8 +12,7 @@ function NavBar({ user }) {
   }, []);
 
   return (
-    <div>
-
+    <>
       <Navbar sticky="top" className="navbar-container">
         <Nav.Link href="/"><img width="60" height="60" src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" /></Nav.Link>
         <Button id="google_translate_element" className="d-flex bg-light p-1" />
@@ -21,47 +20,49 @@ function NavBar({ user }) {
           {
                 user
                   ? (
-                    <Nav className="m-auto justify-content-start">
-                      <Nav.Link href="/fileupload" placement="left" variant="dark">
-                        <div className="transition">
-                          <motion.h4
-                            className="redirect-text"
-                            animate
-                            whileHover={{ color: 'black', scale: 1.1 }}
-                            whileTap={{ scale: 0.8 }}
-                          >
-                            Translate Files
-                          </motion.h4>
-                        </div>
-                      </Nav.Link>
-                      <Nav.Link href="/join" placement="left" variant="dark">
-                        <div className="transition">
-                          <motion.h4
-                            className="redirect-text"
-                            animate
-                            whileHover={{ color: 'black', scale: 1.1 }}
-                            whileTap={{ scale: 0.8 }}
-                          >
-                            Create a Room
-                          </motion.h4>
-                        </div>
-                      </Nav.Link>
-                      <Nav.Link href="/roomlist" placement="left" variant="dark">
-                        <div className="transition">
-                          <motion.h4
-                            className="redirect-text"
-                            animate
-                            whileHover={{ color: 'black', scale: 1.1 }}
-                            whileTap={{ scale: 0.8 }}
-                          >
-                            Find Rooms
-                          </motion.h4>
-                        </div>
-                      </Nav.Link>
+                    <>
+                      <Nav className="m-auto justify-content-start">
+                        <Nav.Link href="/fileupload" placement="left" variant="dark">
+                          <div className="transition">
+                            <motion.h4
+                              className="redirect-text"
+                              animate
+                              whileHover={{ color: 'black', scale: 1.1 }}
+                              whileTap={{ scale: 0.8 }}
+                            >
+                              Translate Files
+                            </motion.h4>
+                          </div>
+                        </Nav.Link>
+                        <Nav.Link href="/join" placement="left" variant="dark">
+                          <div className="transition">
+                            <motion.h4
+                              className="redirect-text"
+                              animate
+                              whileHover={{ color: 'black', scale: 1.1 }}
+                              whileTap={{ scale: 0.8 }}
+                            >
+                              Create a Room
+                            </motion.h4>
+                          </div>
+                        </Nav.Link>
+                        <Nav.Link href="/roomlist" placement="left" variant="dark">
+                          <div className="transition">
+                            <motion.h4
+                              className="redirect-text"
+                              animate
+                              whileHover={{ color: 'black', scale: 1.1 }}
+                              whileTap={{ scale: 0.8 }}
+                            >
+                              Find Rooms
+                            </motion.h4>
+                          </div>
+                        </Nav.Link>
+                      </Nav>
                       <motion.h4 whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }} className="profile-thumb" onClick={() => setOpen(!isOpen)}>
                         <img className="thumbnail rounded-circle" width="60" height="60" src={user.thumbnail} alt="" />
                       </motion.h4>
-                    </Nav>
+                    </>
                   )
                   : (
                     <Nav.Link className="justify-content-end" href="/login" style={{ marginLeft: '100px' }}>
@@ -112,7 +113,7 @@ function NavBar({ user }) {
           </motion.div>
         )
       }
-    </div>
+    </>
   );
 }
 
