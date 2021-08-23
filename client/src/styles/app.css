@@ -1,3 +1,7 @@
 .app-container {
     z-index: -3;
 }
+
+.nav-container {
+    position:fixed;
+}
