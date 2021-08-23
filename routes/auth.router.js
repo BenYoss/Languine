@@ -33,7 +33,7 @@ authRouter.get('/login', (req, res) => {
 // redirect to the login page if user logs out
 authRouter.get('/logout', (req, res) => {
   req.session.destroy();
-  res.redirect('/login');
+  res.redirect('/');
 });
 
 // responds with user information if route is hit
