@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import 'filepond/dist/filepond.min.css';
 import { Collapse } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../styles/bucket.css';
 
 let warnCollapsed = true;
 
@@ -60,8 +61,19 @@ function Bucket({ sendMessage }) {
             </div>
           </Collapse>
         </Route>
+        <Collapse in={warnCollapsed}>
+          <div className="alert alert-danger">
+            <button type="button" className="alert-danger" onClick={() => { warnCollapsed = false; setReload([]); }}>x</button>
+            <h3>This Button Has Been Disabled!</h3>
+            <h4>
+              As it turns out, our uploader API key cannot be uploaded onto our
+              deployed service and as a result, the upload feature has been disabled.
+              We are currently working on it!
+            </h4>
+          </div>
+        </Collapse>
         <div className="form-group">
-          <button className="btn btn-dark" type="submit">Upload</button>
+          <button className="btn btn-dark disabled" disabled type="submit">Upload</button>
         </div>
         <div className="filepond-wrapper form-group">
           <FilePond
