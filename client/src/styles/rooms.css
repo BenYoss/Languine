@@ -27,6 +27,11 @@
     margin-top: 10px;
 }
 
+.modal-ban {
+    display: flex;
+    justify-content: center;
+}
+
 .btn {
     display: flex;
     justify-content: flex-start;

@@ -79,10 +79,10 @@ function RoomList({ users, user }) {
         {
           isBanned && (
             <Modal show={bannedOpener} onHide={() => { setBannedOpener(!bannedOpener); setReload([]); }} aria-labelledby="contained-modal-title-vcenter" centered>
-              <Modal.Title id="contained-modal-title-vcenter">
+              <Modal.Title id="contained-modal-title-vcenter" className="modal-ban">
                 The Hammer Went &#8220;Badabing Bada BAN&#8220;!
               </Modal.Title>
-              <Modal.Body>
+              <Modal.Body className="modal-ban">
                 <p>You have been banned!! It seems like you must have upset the host!</p>
               </Modal.Body>
             </Modal>
