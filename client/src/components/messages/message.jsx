@@ -3,7 +3,7 @@ import React from 'react';
 import '../../styles/message.css';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Nav } from 'react-bootstrap';
+import { Nav, Button } from 'react-bootstrap';
 import {
   deleteMessage, banUser, getBannedUsers, pardonUser,
 } from '../../helpers/helpers';
@@ -95,8 +95,10 @@ function Message({
             }
           </div>
           <img src={thumbnailUser} alt="" width="70" height="70" />
-          <div className="d">
-            <button className="messageText colorWhite" type="submit" onClick={() => deleteMessage(_id).then(() => { reloader(); }).catch((err) => console.error(err))}>x</button>
+          <div className="delete-container">
+            <Button className="btn delete-btn colorWhite" type="submit" onClick={() => deleteMessage(_id).then(() => { reloader(); }).catch((err) => console.error(err))}>
+              <img src="https://img.icons8.com/carbon-copy/2x/ffffff/delete-sign.png" alt="delete-message-icon" width="20" height="20" />
+            </Button>
           </div>
         </div>
       </div>
@@ -113,18 +115,13 @@ function Message({
             {host === account
               ? (
                 <div>
-                  <button
-                    className="messageText 2"
-                    type="submit"
-                    onClick={() => deleteMessage(_id)
-                      .then(() => { reloader(); }).catch((err) => console.error(err))}
-                  >
-                    x
-                  </button>
+                  <Button className="btn delete-btn colorWhite" type="submit" onClick={() => deleteMessage(_id).then(() => { reloader(); }).catch((err) => console.error(err))}>
+                    <img src="https://img.icons8.com/carbon-copy/2x/ffffff/delete-sign.png" alt="delete-message-icon" width="20" height="20" />
+                  </Button>
                   {
                     !bannedUsers[idUser] ? (
-                      <button
-                        className="messageText 2"
+                      <Button
+                        className="messageText 2 colorWhite"
                         type="submit"
                         onClick={() => banUser(idUser, idRoom).then(
                           () => {
@@ -133,10 +130,10 @@ function Message({
                         ).catch((err) => console.error(err))}
                       >
                         ban user
-                      </button>
+                      </Button>
                     ) : (
                       <button
-                        className="messageText 2"
+                        className="delete-btn"
                         type="submit"
                         onClick={() => { isPardoned(); }}
                       >
