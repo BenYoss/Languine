@@ -194,7 +194,7 @@
 }
 
 .card.hovercard .cardheader {
-    background: url("https://ak.picdn.net/shutterstock/videos/17482027/thumb/1.jpg");
+    background-color:#404040;
     background-size: cover;
     height: 135px;
 }
