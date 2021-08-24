@@ -7,5 +7,4 @@ const fingerPrintPromise = FingerprintJS.load();
   const result = await fingerPrint.get();
 
   const userId = result.visitorId;
-  console.log(userId);
 })();

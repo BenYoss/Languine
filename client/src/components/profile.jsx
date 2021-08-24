@@ -15,8 +15,6 @@ function Profile({ user }) {
     getFiles(id)
       .then((fileData) => {
         setFiles(fileData);
-        const test = document.getElementById('cardheader');
-        console.log(test);
       })
       .catch((err) => console.error(err));
   }, []);

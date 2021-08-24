@@ -38,7 +38,6 @@ passport.use(new GoogleStrategy({
   // "Fillme" is a prefix for description
   userModel.addUser(name, picture, 'fill me', sub, locale)
     .then(() => {
-      console.log(`${name}has been added!`);
       done(null, profile);
     })
     .catch((err) => { console.error(err); });

@@ -21,10 +21,8 @@ function File() {
       .catch((err) => console.error(err));
   }, []);
   const renderPDF = (preFile, bool) => {
-    console.log(preFile.filetext, 'tetsst');
     pdfjs.getDocument({ url: preFile.filetext }).promise.then((doc) => {
       const { _pdfInfo } = doc;
-      console.log(`This file has ${_pdfInfo.numPages} pages`);
       if (bool) {
         counter += 1;
       } else {

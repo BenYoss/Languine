@@ -9,7 +9,6 @@ function RoomAuth({ room, userId, user }) {
   const [invalid, setInvalid] = useState(true);
 
   const comparePass = (password) => {
-    console.log(password);
     getPassword(room, password)
       .then((bool) => {
         if (bool) {

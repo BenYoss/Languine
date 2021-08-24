@@ -8,7 +8,6 @@ function UserProfiles() {
 
   useEffect(() => {
     const { id } = query.parse(window.location.search);
-    console.log(id);
     getUser(id)
       .then((userData) => {
         setUser(userData);

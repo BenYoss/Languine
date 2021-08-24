@@ -27,7 +27,6 @@ function Bucket({ sendMessage }) {
     formData.append('fileUpload', fileCollection[0][0], fileCollection[0][0].name);
     axios.post('api/bucket', formData, { headers: { 'Content-Type': 'multipart/form-data' } }, {
     }).then((res) => {
-      console.log(res.data);
       imageTypes.forEach((imgType) => {
         if (res.data.includes(imgType)) {
           sendMessage(res.data);

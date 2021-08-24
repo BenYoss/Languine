@@ -20,7 +20,6 @@ function App() {
   useEffect(() => {
     getAccount()
       .then((userInfo) => {
-        console.log(userInfo);
         window.language = userInfo.language;
         getUsers()
           .then((userList) => {
