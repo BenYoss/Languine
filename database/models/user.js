@@ -37,9 +37,7 @@ const findUsers = (option) => User.find(option).sort().exec();
 
 const updateUserRoom = (userId, roomId) => User.findOneAndUpdate({ id_google: userId },
   { id_room: roomId })
-  .then((data) => {
-    console.log(roomId, data.id_room);
-    // console.log('Room has been changed to ', data);
+  .then(() => {
   })
   .catch((err) => console.error(err));
 

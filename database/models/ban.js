@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 require('../index.js');
 const mongoose = require('mongoose');
 
@@ -20,10 +21,7 @@ const banUser = (userId, roomId) => {
     .catch((err) => console.error(err));
 };
 
-const pardonUser = (userId, roomId) => Ban.deleteOne({
-  where:
-    { id_user: userId, id_room: roomId },
-})
+const pardonUser = (userId, roomId) => Ban.deleteOne({ id_user: userId, id_room: roomId })
   .then((result) => {
     console.log(result.id_user, 'has been deleted');
   })
