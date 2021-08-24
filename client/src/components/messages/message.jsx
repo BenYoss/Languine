@@ -18,15 +18,12 @@ function Message({
   const thumbnailUser = message.thumbnail_user;
   const idUser = message.id_user;
   const idRoom = message.id_room;
-
   const isBanned = () => {
     getBannedUsers(idRoom)
       .then((userData) => {
         userData.forEach((user) => {
           if (user.id_user === idUser) {
             bannedUsers[idUser] = true;
-            console.log('banned', idUser, userData);
-            reloader();
           }
         });
       }).catch((err) => console.error(err));
@@ -59,40 +56,48 @@ function Message({
           <p className="date sentText pr-10">{moment(timestamp).fromNow()}</p>
           <p className="sentText pr-10">{name}</p>
           <div className="messageBox backgroundBlue">
-            {
-              text.includes('https://') || text.includes('http://')
-                ? (
-                  <div>
-                    <a className="messageText colorWhite" href={text}>{text}</a>
-                  </div>
-                ) : (
-                  <div>
-                    <p className="messageText colorWhite">{text}</p>
-                  </div>
-                )
-            }
-            {
-              text.includes('https://') || text.includes('http://')
-                ? imageTypes.map((type) => {
-                  if (text.includes(type)) {
-                    return [
-                      <img src={text} alt="" width="45%" height="70%" />,
-                    ];
-                  }
-                  return undefined;
-                }).filter((value) => value !== undefined).pop()
-                || videoTypes.map((vidType) => {
-                  if (text.includes(vidType)) {
-                    return (
-                      <video width="420" height="240" src={text} type="video/mp4" controls>
-                        <track kind="captions" />
-                      </video>
-                    );
-                  }
-                  return '';
-                })
-                : ''
-            }
+            {bannedUsers[idUser] ? (
+              <div>
+                <p className="messageText colorWhite">{'< This message has been blocked! >'}</p>
+              </div>
+            ) : (
+              <>
+                {
+                text.includes('https://') || text.includes('http://')
+                  ? (
+                    <div>
+                      <a className="messageText colorWhite" href={text}>{text}</a>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="messageText colorWhite">{text}</p>
+                    </div>
+                  )
+              }
+                {
+                text.includes('https://') || text.includes('http://')
+                  ? imageTypes.map((type) => {
+                    if (text.includes(type)) {
+                      return [
+                        <img src={text} alt="" width="45%" height="70%" />,
+                      ];
+                    }
+                    return undefined;
+                  }).filter((value) => value !== undefined).pop()
+                  || videoTypes.map((vidType) => {
+                    if (text.includes(vidType)) {
+                      return (
+                        <video width="420" height="240" src={text} type="video/mp4" controls>
+                          <track kind="captions" />
+                        </video>
+                      );
+                    }
+                    return '';
+                  })
+                  : ''
+              }
+              </>
+            )}
           </div>
           <img src={thumbnailUser} alt="" width="70" height="70" />
           <div className="delete-container">
@@ -126,19 +131,20 @@ function Message({
                         onClick={() => banUser(idUser, idRoom).then(
                           () => {
                             isBanned();
+                            reloader();
                           },
                         ).catch((err) => console.error(err))}
                       >
-                        ban user
+                        Ban
                       </Button>
                     ) : (
-                      <button
-                        className="delete-btn"
+                      <Button
+                        className="messageText 2 colorWhite"
                         type="submit"
                         onClick={() => { isPardoned(); }}
                       >
-                        pardon user
-                      </button>
+                        Pardon
+                      </Button>
                     )
                   }
                 </div>
@@ -148,7 +154,13 @@ function Message({
             <img src={thumbnailUser} alt="" width="70" height="70" />
           </Nav.Link>
           <div className="messageBox backgroundLight">
-            {
+            {bannedUsers[idUser] ? (
+              <div>
+                <p className="messageText colorDark 2">{'< This message has been blocked! >'}</p>
+              </div>
+            ) : (
+              <>
+                {
               text.includes('https://') || text.includes('http://')
                 ? (
                   <div>
@@ -160,7 +172,7 @@ function Message({
                   </div>
                 )
             }
-            {
+                {
               text.includes('https://') || text.includes('http://')
                 ? imageTypes.map((type) => {
                   if (text.includes(type)) {
@@ -182,6 +194,8 @@ function Message({
                 })
                 : ''
             }
+              </>
+            )}
           </div>
           <p className="sentText pl-10">{nameUser}</p>
           <p className="date sentText pl-10">{moment(timestamp).fromNow()}</p>

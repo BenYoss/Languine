@@ -109,7 +109,6 @@ export const hash = (pass) => {
 };
 
 export const addPassword = (pass, room) => new Promise((res, rej) => {
-  console.log(pass, room);
   axios.post('/roomauth', { password: pass, roomName: room })
     .then((data) => {
       res(data.data);
@@ -126,7 +125,7 @@ export const deleteFile = (file) => new Promise((res, rej) => {
 });
 
 export const pardonUser = (idUser, idRoom) => new Promise((res, rej) => {
-  axios.delete('/banned', { params: { useId: idUser, roomId: idRoom } })
+  axios.delete('/banned', { params: { userId: idUser, roomId: idRoom } })
     .then((fileData) => {
       res(fileData);
     })

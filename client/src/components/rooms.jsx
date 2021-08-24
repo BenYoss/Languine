@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import query from 'query-string';
 import crypto from 'crypto-js';
 import {
   Nav, Collapse, Modal, Button,
@@ -17,11 +18,17 @@ const authOpener = {};
 
 function RoomList({ users, user }) {
   const [rooms, setRooms] = useState([]);
+  const [isBanned, setBanned] = useState([]);
+  const [bannedOpener, setBannedOpener] = useState(true);
   const [usersIds, setUsersIds] = useState([]);
   const [usersNames, setUsersNames] = useState([]);
   const [, setReload] = useState([]);
 
   useEffect(() => {
+    const {
+      banned,
+    } = query.parse(window.location.search);
+    setBanned(banned);
     getRooms()
       .then((roomData) => {
         setRooms(roomData);
@@ -36,7 +43,6 @@ function RoomList({ users, user }) {
   }, []);
 
   useEffect(() => {
-    console.log(users);
     users.forEach((roomuser) => {
       const idStorage = usersIds;
       const nameStorage = usersNames;
@@ -70,6 +76,18 @@ function RoomList({ users, user }) {
     <div className="d-flex card roomListContainer flex-column">
       <h1 className="card-header bg-dark text-white d-flex join-header justify-content-center variant-dark">Room List</h1>
       <div className="roomListInnerContainer pl-5 pr-5">
+        {
+          isBanned && (
+            <Modal show={bannedOpener} onHide={() => { setBannedOpener(!bannedOpener); setReload([]); }} aria-labelledby="contained-modal-title-vcenter" centered>
+              <Modal.Title id="contained-modal-title-vcenter">
+                The Hammer Went &#8220;Badabing Bada BAN&#8220;!
+              </Modal.Title>
+              <Modal.Body>
+                <p>You have been banned!! It seems like you must have upset the host!</p>
+              </Modal.Body>
+            </Modal>
+          )
+        }
         {rooms.length
           ? rooms.map((room) => {
             const { _id } = room;

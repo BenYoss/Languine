@@ -28,6 +28,34 @@ function Chat({ userType }) {
   const [reload, setReload] = useState([]);
   const [account, setAccount] = useState([]);
 
+  const reloader = () => {
+    const {
+      room, name,
+    } = query.parse(window.location.search);
+
+    getRoom(crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8))
+      .then((roomData) => {
+        const { _id } = roomData[0];
+        setHost(roomData[0].id_host);
+        getMessages(_id)
+          .then((messageBlock) => {
+            const storage = messageBlock;
+            setMessages(storage);
+            getBannedUsers(_id)
+              .then((userData) => {
+                userData.forEach((use) => {
+                  bannedUsers[use.id_user] = true;
+                  if (use.id_user === name) {
+                    window.location.href = '/roomlist?banned=true';
+                    setReload([]);
+                  }
+                });
+              }).catch((err) => console.error(err));
+          });
+      })
+      .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
     const {
       name, room, user, desc, pub,
@@ -37,11 +65,6 @@ function Chat({ userType }) {
     if (!decryptRoom.length) {
       window.location.href = '/404';
     }
-    console.log(user, bannedUsers);
-    if (user === bannedUsers[user]) {
-      window.location.href = '/roomlist?banned=true';
-    }
-    console.log(decryptRoom);
     socket = io(process.env.SOCKET_HOST);
     setRoom(decryptRoom);
     setNameUser(user);
@@ -50,42 +73,12 @@ function Chat({ userType }) {
       name, room: decryptRoom, desc, pub,
     }, () => {
     });
-
     return () => {
       socket.emit('disconnect');
 
       socket.off();
     };
   }, [process.env.SOCKET_HOST, window.location.search]);
-
-  const reloader = () => {
-    const {
-      room, name,
-    } = query.parse(window.location.search);
-
-    getRoom(crypto.AES.decrypt(crypto.enc.Hex.parse(room).toString(crypto.enc.Base64), 'room').toString(crypto.enc.Utf8))
-      .then((roomData) => {
-        const { _id } = roomData[0];
-        console.log(roomData, 'this is data');
-        setHost(roomData[0].id_host);
-        getMessages(_id)
-          .then((messageBlock) => {
-            const storage = messageBlock;
-            setMessages(storage);
-            getBannedUsers(_id)
-              .then((userData) => {
-                userData.forEach((use) => {
-                  if (use.id_user === name) {
-                    bannedUsers[name] = true;
-                    console.log('banned', name, userData);
-                    setReload([]);
-                  }
-                });
-              }).catch((err) => console.error(err));
-          });
-      })
-      .catch((err) => console.error(err));
-  };
   useEffect(() => {
     setAccount(userType.id_google);
   }, [userType]);
@@ -94,6 +87,10 @@ function Chat({ userType }) {
       reloader();
     });
   }, []);
+
+  useEffect(() => {
+    reloader();
+  }, [bannedUsers]);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -105,7 +102,6 @@ function Chat({ userType }) {
   };
 
   const sendImage = (image) => {
-    console.log('I am image', image);
     if (image) {
       socket.emit('sendMessage', image, () => setMessage(''));
       setMessage('');
