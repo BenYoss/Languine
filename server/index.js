@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -75,16 +76,17 @@ io.on('connection', (socket) => {
 
   socket.on('sendMessage', (message) => {
     const user = userInfo[socket.id];
-    Room.getRooms({ _id: user.id_room })
-      .then((dataRoom) => {
-        Message.addMessage(user.id_google, user.id_room, message, user.username, user.thumbnail)
-          .then((result) => {
-            console.log(result, 'success', message);
-            io.to(dataRoom[0].name).emit('message', { user: user.username, text: message, img: user.thumbnail });
-          })
-          .catch((err) => console.error(err));
-      })
-      .catch((err) => console.error(err));
+    if (user) {
+      Room.getRooms({ _id: user.id_room })
+        .then((dataRoom) => {
+          Message.addMessage(user.id_google, user.id_room, message, user.username, user.thumbnail)
+            .then(() => {
+              io.to(dataRoom[0].name).emit('message', { user: user.username, text: message, img: user.thumbnail });
+            })
+            .catch((err) => console.error(err));
+        })
+        .catch((err) => console.error(err));
+    }
   });
 
   socket.on('disconnect', () => {
