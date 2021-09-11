@@ -1,6 +1,6 @@
 Languine <img src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" height="30" width="30" />
 =========
-Languine is a messaging site that breaks the language barrier by translating messages at real time!
+Languine is a messaging site that breaks the language barrier by translating messages in real time!
 
 Description
 =========
