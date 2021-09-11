@@ -59,7 +59,19 @@ const createPassword = ({ password, roomName }) => {
     .catch((err) => console.error(err));
 };
 
+const updateRoom = (id, options) => Room.findOneAndUpdate({ _id: id },
+  options).then((data) => console.log(data)).catch((err) => console.error(err));
+
 const getPassword = ({ roomName }) => RoomPass.findOne({ room: roomName }).exec();
+
+const updatePassword = (roomName, password) => RoomPass.findOneAndUpdate({ room: roomName },
+  password).then((pass) => {
+  const hash = password.password;
+  if (!pass) {
+    return createPassword({ password: hash, roomName });
+  }
+  return null;
+}).catch((err) => console.error(err));
 
 const deletePassword = ({ roomName }) => RoomPass.deleteOne({ room: roomName }).exec();
 
@@ -70,4 +82,6 @@ module.exports = {
   createPassword,
   getPassword,
   deletePassword,
+  updateRoom,
+  updatePassword,
 };
