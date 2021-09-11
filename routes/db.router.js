@@ -79,7 +79,6 @@ dbrouter.post('/rooms', (req, res) => {
 
 dbrouter.put('/rooms', (req, res) => {
   const { id, options } = req.body;
-  console.log(options);
   Room.updateRoom(id, options).then(() => {
     res.status(201).end();
   }).catch(() => res.status(500).end());
