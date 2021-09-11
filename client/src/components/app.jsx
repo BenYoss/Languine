@@ -8,7 +8,7 @@ import Footer from './footer';
 import Join from './join';
 import RoomList from './rooms';
 import NavBar from './navBar';
-import Profile from './profile';
+import Profile from './profile/profile';
 import Bucket from './files/bucket';
 import File from './files/file';
 import UserProfiles from './userProfiles';
