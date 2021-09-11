@@ -33,7 +33,6 @@ function Profile({ user }) {
             <div className="title">
               <p>{user.username}</p>
             </div>
-            <div className="desc">{user.description}</div>
             <p className="text-between">
               <img src={img} alt="icon for user language" width="20" height="20" />
               {`  ${user.language}`}
