@@ -53,10 +53,10 @@ function Bucket({ sendMessage }) {
             <div className="alert alert-danger">
               <button type="button" className="alert-danger" onClick={() => { warnCollapsed = false; setReload([]); }}>x</button>
               <h3>Warning!</h3>
-              <h4>
+              <span>
                 the PDF upload feature requires the CORS
                 chrome extension to display translated PDFS.
-              </h4>
+              </span>
               <a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en">Link to CORS extension</a>
             </div>
           </Collapse>
@@ -65,11 +65,12 @@ function Bucket({ sendMessage }) {
           <div className="alert alert-danger">
             <button type="button" className="alert-danger" onClick={() => { warnCollapsed = false; setReload([]); }}>x</button>
             <h3>This Button Has Been Disabled!</h3>
-            <h4>
+            <span>
               As it turns out, our uploader API key cannot be uploaded onto our
               deployed service and as a result, the upload feature has been disabled.
               We are currently working on it!
-            </h4>
+            </span>
+            <h5>- Languine Team</h5>
           </div>
         </Collapse>
         <div className="form-group">
