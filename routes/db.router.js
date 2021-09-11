@@ -7,7 +7,7 @@ const {
 const dbrouter = express.Router();
 
 /**
- * GET users from the database based on field search critera
+ * @GET users from the database based on field search critera
  * @func findUsers
  */
 dbrouter.get('/users', (req, res) => {
@@ -20,6 +20,11 @@ dbrouter.get('/users', (req, res) => {
     });
 });
 
+/**
+ * @POST for users route.
+ * Creates a new user based on data passed from client.
+ */
+
 dbrouter.post('/users', (req, res) => {
   User.addUser(req.body)
     .then(() => {
@@ -28,14 +33,38 @@ dbrouter.post('/users', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+/**
+ * @PUT request for users route.
+ * Updates user information based on user id and option critera.
+ * NOTE: (When a user decides to change a specific feature on their profile, this request fires.)
+ */
+
+dbrouter.put('/users', (req, res) => {
+  const { id, options } = req.body;
+  User.updateUser(id, options)
+    .then(() => {
+      res.status(201).send('user has been updated');
+    })
+    .catch(() => res.status(500).end());
+});
+
+/**
+ * @GET request for rooms route.
+ * Gets room information based on the id of specified room.
+ * The request for when a user enters a specific room.
+ */
 dbrouter.get('/rooms', (req, res) => {
   Room.getRooms(req.query)
     .then((rooms) => {
       res.status(200).send(rooms);
     })
     .catch(() => res.status(500).end());
-  // res.send('this is the getter for rooms');
 });
+
+/**
+ * @POST for rooms route.
+ * Creates a new room based on information passed in.
+ */
 
 dbrouter.post('/rooms', (req, res) => {
   Room.addRoom(req.body)
@@ -45,6 +74,11 @@ dbrouter.post('/rooms', (req, res) => {
   res.send('rooms');
 });
 
+/**
+ * @DELETE for rooms route.
+ * Deletes a room from the database based on id.
+ */
+
 dbrouter.delete('/rooms', (req, res) => {
   Room.deleteRoom(req.query)
     .then(() => {
@@ -53,9 +87,20 @@ dbrouter.delete('/rooms', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+/**
+ * @GET for languages route.
+ * Gets languages based on a keyword criteria.
+ * When a user wants to find languages in the list, this route fires.
+ */
+
 dbrouter.get('/languages', (req, res) => {
   res.status(200).send('this is the getter for languages');
 });
+
+/**
+ * @GET request for messages route.
+ * Gets message information based on the id of room.
+ */
 
 dbrouter.get('/messages', (req, res) => {
   Message.getMessages(req.query)
@@ -64,6 +109,11 @@ dbrouter.get('/messages', (req, res) => {
     })
     .catch(() => res.status(500).end());
 });
+
+/**
+ * @POST request for messages.
+ * Creates a new message inside of specified room based on id.
+ */
 
 dbrouter.post('/messages', (req, res) => {
   Message.addMessage(req.body)
@@ -74,6 +124,11 @@ dbrouter.post('/messages', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+/**
+ * @DELETE request for messages route.
+ * Deletes a message from the database and room based on the id of the message.
+ */
+
 dbrouter.delete('/messages', (req, res) => {
   Message.deleteMessage(req.query)
     .then(() => {
@@ -83,9 +138,10 @@ dbrouter.delete('/messages', (req, res) => {
     .catch(() => res.status(500).end());
 });
 
-dbrouter.get('/files', (req, res) => {
-  res.status(200).send('this is the getter for files');
-});
+/**
+ * @GET request for banned users.
+ * Gets all banned users based on the room id specified.
+ */
 
 dbrouter.get('/banned', (req, res) => {
   const { roomId } = req.query;
@@ -100,6 +156,11 @@ dbrouter.get('/banned', (req, res) => {
     });
 });
 
+/**
+ * @POST request for banned users.
+ * Adds a new ban to a user based on room id.
+ */
+
 dbrouter.post('/banned', (req, res) => {
   const { userId, roomId } = req.body;
 
@@ -112,6 +173,11 @@ dbrouter.post('/banned', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+/**
+ * @DELETE request for banned users.
+ * Pardons a user by removing their ban from the database.
+ */
 
 dbrouter.delete('/banned', (req, res) => {
   const { userId, roomId } = req.query;
