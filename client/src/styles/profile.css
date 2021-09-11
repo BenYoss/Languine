@@ -28,10 +28,18 @@
     color: #777;
     border-bottom: 1px solid #e5e5e5;
 }
-
+.room-title {
+    margin-left: auto;
+    position: fixed;
+    justify-content: center;
+}
+.room-list-header {
+    display: inline-block;
+}
 .room-btn-list {
     display: grid;
     grid-auto-flow: column;
+    justify-content: flex-start;
 }
 
 .card .card-heading.image img {
@@ -259,4 +267,8 @@
 .card.hovercard .bottom {
     padding: 0 20px;
     margin-bottom: 17px;
+}
+
+.room-icon {
+    filter: invert();
 }
