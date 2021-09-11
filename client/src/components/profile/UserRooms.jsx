@@ -66,9 +66,9 @@ export default function UserRooms({ user }) {
                     <Button className="btn-dark" type="submit" onClick={() => joinRoom(room)}>
                       <img src={joinIcon} alt="join a room door" className="room-icon" width="20px" height="20px" />
                     </Button>
-                    <div className="room-title">
-                      <h4>{room.name}</h4>
-                    </div>
+                  </div>
+                  <div className="room-title">
+                    <h4>{room.name}</h4>
                   </div>
                 </Card.Header>
                 <Card.Body>

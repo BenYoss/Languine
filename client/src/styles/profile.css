@@ -29,12 +29,14 @@
     border-bottom: 1px solid #e5e5e5;
 }
 .room-title {
-    margin-left: auto;
-    position: fixed;
-    justify-content: center;
+    text-align: right;
+    justify-content: flex-end;
+    width: 40%;
+    margin-left: 30%;
 }
 .room-list-header {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
 }
 .room-btn-list {
     display: grid;

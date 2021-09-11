@@ -43,7 +43,7 @@ export default function ExpandedRoom({ room }) {
       {!room.is_public && (
         <section className="edit-room-inputs">
           <label>Change password:</label>
-          <input className="form-control" value={options.name} onChange={(event) => setPassword(event.target.value)} type="text" placeholder="******" />
+          <input className="form-control" value={newPassword} onChange={(event) => setPassword(event.target.value)} type="text" placeholder="******" />
         </section>
       )}
       <div className="edit-room-submit">
