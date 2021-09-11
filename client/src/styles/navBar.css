@@ -23,6 +23,7 @@ h4 {
   transition: background-position 1s;
 }
 .profile-thumb {
+  cursor: pointer;
   width: 80px;
   opacity: 100;
   position: absolute;
