@@ -272,3 +272,12 @@
 .room-icon {
     filter: invert();
 }
+
+.edit-room-submit {
+    display: flex;
+    justify-content: center;
+}
+
+.edit-room-inputs {
+    justify-content: flex-start;
+}
