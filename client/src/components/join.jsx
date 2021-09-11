@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import crypto from 'crypto-js';
 import { Collapse, Button } from 'react-bootstrap';
 import { addPassword, hash } from '../helpers/helpers';
+import '../styles/join.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Join({ user }) {
@@ -22,7 +23,11 @@ function Join({ user }) {
           <label>Room Description:</label>
           <textarea placeholder="Description" className="Desc-Input form-control at-20" type="text" onChange={(ev) => setDesc(ev.target.value)} />
           <h4>Set public?</h4>
-          <Button className="btn-dark" type="Button" onClick={() => setPub(!pub)}>{`${pub}`}</Button>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setPub(!pub)} />
+            <span className="slider round" />
+          </label>
+
           <div>
             <div>
               <Collapse className="pt-3 pb-4 col-lg-8" in={!pub}>
