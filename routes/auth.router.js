@@ -66,6 +66,21 @@ authRouter.post('/roomauth', (req, res) => {
   res.end();
 });
 
+/**
+ * @PUT request for passwords route.
+ * Updates password information based on password id and option critera.
+ * NOTE: (When a user decides to change a specific feature on their profile, this request fires.)
+ */
+
+authRouter.put('/roomauth', (req, res) => {
+  const { id, newPassword } = req.body;
+  Room.updatePassword(id, newPassword)
+    .then(() => {
+      res.status(201).send('password has been updated');
+    })
+    .catch(() => res.status(500).end());
+});
+
 // Export router for rendering to server.
 
 module.exports = {
