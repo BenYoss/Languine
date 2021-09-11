@@ -20,7 +20,7 @@ function Join({ user }) {
         <div>
           <label>Insert a name:</label>
           <input placeholder="Roomname" className="Room-Input form-control" type="text" onChange={(ev) => setRoom(ev.target.value)} />
-          <label>Room Description:</label>
+          <label>Room description:</label>
           <textarea placeholder="Description" className="Desc-Input form-control at-20" type="text" onChange={(ev) => setDesc(ev.target.value)} />
           <h4>Set public?</h4>
           <label className="switch">
