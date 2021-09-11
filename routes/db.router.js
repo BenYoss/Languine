@@ -67,11 +67,22 @@ dbrouter.get('/rooms', (req, res) => {
  */
 
 dbrouter.post('/rooms', (req, res) => {
-  Room.addRoom(req.body)
-    .then(() => {
-    })
-    .catch(() => res.status(500).end());
-  res.send('rooms');
+  Room.addRoom(req.body).then(() => {
+    res.status(201).end();
+  }).catch(() => res.status(500).end());
+});
+
+/**
+ * @PUT request for rooms.
+ * Updates a specific room based on id.
+ */
+
+dbrouter.put('/rooms', (req, res) => {
+  const { id, options } = req.body;
+  console.log(options);
+  Room.updateRoom(id, options).then(() => {
+    res.status(201).end();
+  }).catch(() => res.status(500).end());
 });
 
 /**
