@@ -154,6 +154,14 @@ export const updateUser = async (id, options) => {
   await axios.put('/users', { id, options }).catch((err) => console.error(err));
 };
 
+export const updateRoom = async (id, options) => {
+  await axios.put('/rooms', { id, options }).catch((err) => console.error(err));
+};
+
+export const updatePassword = async (id, newPassword) => {
+  await axios.put('/roomauth', { id, newPassword }).catch((err) => console.error(err));
+};
+
 export const getPassword = (room, inputPass) => new Promise((res, rej) => {
   axios.get('/roomauth', { params: { roomName: room } })
     .then((password) => {
