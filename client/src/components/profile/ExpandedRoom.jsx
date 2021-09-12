@@ -25,12 +25,12 @@ export default function ExpandedRoom({ room }) {
         <h4>Edit Room:</h4>
       </div>
       <section className="edit-room-inputs">
-        <label>Change description:</label>
-        <input className="form-control" type="text" value={options.description} onChange={(event) => setOptions({ ...options, description: event.target.value })} placeholder="This is the best room in the world!" />
-      </section>
-      <section className="edit-room-inputs">
         <label>Change name:</label>
         <input className="form-control" type="text" value={options.name} onChange={(event) => setOptions({ ...options, name: event.target.value })} placeholder="Bob's Dojo" />
+      </section>
+      <section className="edit-room-inputs">
+        <label>Change description:</label>
+        <input className="form-control" type="text" value={options.description} onChange={(event) => setOptions({ ...options, description: event.target.value })} placeholder="This is the best room in the world!" />
       </section>
       <section>
         <label>Make room public:</label>
