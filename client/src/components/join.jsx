@@ -18,21 +18,23 @@ function Join({ user }) {
       <div className="join-inner-container">
         <h1 className="card-header bg-dark text-white d-flex join-header justify-content-center variant-dark">Create Room</h1>
         <div>
-          <label>Insert a name:</label>
-          <input placeholder="Roomname" className="Room-Input form-control" type="text" onChange={(ev) => setRoom(ev.target.value)} />
-          <label>Room description:</label>
-          <textarea placeholder="Description" className="Desc-Input form-control at-20" type="text" onChange={(ev) => setDesc(ev.target.value)} />
-          <h4>Set public?</h4>
-          <label className="switch">
-            <input type="checkbox" onClick={() => setPub(!pub)} />
-            <span className="slider round" />
-          </label>
+          <div className="room-creation-form">
+            <h5>Insert a name:</h5>
+            <input placeholder="Roomname" className="Room-Input form-control" type="text" onChange={(ev) => setRoom(ev.target.value)} />
+            <h5>Room description:</h5>
+            <textarea placeholder="Description" className="Desc-Input form-control at-20" type="text" onChange={(ev) => setDesc(ev.target.value)} />
+            <h5>Set Private?</h5>
+            <label className="switch">
+              <input type="checkbox" onClick={() => setPub(!pub)} />
+              <span className="slider round" />
+            </label>
+          </div>
 
           <div>
             <div>
               <Collapse className="pt-3 pb-4 col-lg-8" in={!pub}>
                 <div>
-                  <p>Create a password</p>
+                  <h5>Create a password</h5>
                   <input placeholder="Password" className="Room-Input form-control" type="password" onChange={(ev) => setPass(ev.target.value)} />
                 </div>
               </Collapse>

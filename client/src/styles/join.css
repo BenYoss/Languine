@@ -73,3 +73,7 @@ input:checked + .slider:before {
     box-shadow: 0 0 10px #FF7751;
     outline: 0 none;
 }
+
+.room-creation-form {
+    padding: 15px 15px 15px 15px;
+}
