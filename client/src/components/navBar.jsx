@@ -14,7 +14,7 @@ function NavBar({ user }) {
   return (
     <>
       <Navbar sticky="top" className="navbar-container">
-        <Nav.Link href="/"><img width="60" height="60" src="https://image.flaticon.com/icons/png/128/472/472527.png" alt="" /></Nav.Link>
+        <Nav.Link href="/"><img width="60" height="60" style={{ borderRadius: '50%' }} src="https://thumbs.dreamstime.com/b/illustration-bowl-noodle-noodles-chopsticks-91574625.jpg" alt="" /></Nav.Link>
         <Button id="google_translate_element" className="d-flex bg-light p-1" />
         <Nav className="m-auto align-items-start">
           {
